@@ -6,13 +6,30 @@ subtitle: "Sentiment Analysis classification task performed over a million tweet
 background: '/img/posts/twitter_SA/twitter_SA.jpg'
 ---
 
-https://github.com/ReneDCDSL/Twitter_Sentiment_Analysis
+# [S403011] [Machine Learning Project](https://github.com/ReneDCDSL/Twitter_Sentiment_Analysis)
+##### by [De CHAMPS René](https://www.linkedin.com/in/rené-de-champs-2679bb269/) & [MAULET Grégory](https://www.linkedin.com/in/gregory-maulet-4a1879140/)
 
-# Machine Learning Project
+<br>
 
-by
-### De CHAMPS René & MAULET Grégory
+# I. Introduction: Description of the data set, imports, notebook structure
 
+<br>
+
+### Description of the dataset
+
+In this analysis, we're looking at a dataset containing tweets : short message posted by users on www.twitter.com. We're aiming at modelling and predicting the sentiment, whether positive or negative, of each tweet. The sentiment of the tweet was based on whether each tweet contained a happy ":)" or sad ":(" smiley. These smileys have been removed from the tweets beforehand.
+
+<br>
+
+### Notebook structure
+
+We'll proceed in this analysis by making a first exploratory data analysis in which we'll take an overall look at our data to get a first intuition on how to approach the modelling. Then, we'll apply different modelling approach and try to compare them using predictive scoring. Finally, after tuning up our best model to get the best possible training fit, we'll apply our model on the test dataset which will serve as our final prediction result. Furthermore, we added an appendix at the end containing a long and perious attempt on using BERT model.
+
+<br>
+
+### Libraries
+
+Let's first load the various libraries needed for this analysis.
 
 ```python
 import matplotlib.pyplot as plt
@@ -55,19 +72,11 @@ from time import time
 import logging
 ```
 
-# I. Introduction: Description of the data set, imports, notebook structure
-
-### Description of the dataset
-
-In this analysis, we're looking at a dataset containing tweets : short message posted by users on www.twitter.com. We're aiming at modelling and predicting the sentiment, whether positive or negative, of each tweet. The sentiment of the tweet was based on whether each tweet contained a happy ":)" or sad ":(" smiley. These smileys have been removed from the tweets beforehand.
-
-### Notebook structure
-
-We'll proceed in this analysis by making a first exploratory data analysis in which we'll take an overall look at our data to get a first intuition on how to approach the modelling. Then, we'll apply different modelling approach and try to compare them using predictive scoring. Finally, after tuning up our best model to get the best possible training fit, we'll apply our model on the test dataset which will serve as our final prediction result. Furthermore, we added an appendix at the end containing a long and perious attempt on using BERT model.
+<br>
 
 ### Import
 
-First of all, let's import our training dataset under the name "emote".
+We then import the training dataset under the name "emote".
 
 
 ```python
@@ -80,9 +89,8 @@ print("Dataset shape:", emote.shape)
     
 
     Dataset shape: (1280000, 6)
-    
-
- 
+  
+<br> 
 
 # II. Exploratory Data Analysis & Feature Engineering
 
@@ -94,9 +102,6 @@ Now that we've imported our training dataset, let's take a first look into it.
 ```python
 emote.head()
 ```
-
-
-
 
 <div>
 <style scoped>
