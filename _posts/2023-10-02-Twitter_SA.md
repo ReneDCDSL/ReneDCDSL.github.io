@@ -83,11 +83,6 @@ We then import the training dataset under the name "emote".
 emote = pd.read_csv("MLUnige2021_train.csv",index_col=0)
 print("Dataset shape:", emote.shape)
 ```
-
-    C:\Users\rened\Anaconda3\lib\site-packages\numpy\lib\arraysetops.py:580: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      mask |= (ar1 == a)
-    
-
     Dataset shape: (1280000, 6)
   
 <br> 
@@ -216,16 +211,17 @@ print("Number of positive tweets :", sum(emote["emotion"] == 1))
 print("Number of negative tweets :", sum(emote["emotion"] == 0))
 # About 50/50 positive and negative tweets
 ```
-
+<br>
 
     
-![png](output_12_0.png)
+![png](/img/posts/twitter_SA/output_12_0.png)
     
 
 
     Number of positive tweets : 640118
     Number of negative tweets : 639882
     
+<br>
 
 We are training on a pretty balanced dataset with as much positive and negative tweets. This will let us perform train/test split without the need of stratifying.
 
@@ -258,7 +254,7 @@ print(emote["user"].value_counts()) # some of them commented a lot
 
 About a quarter of the twitter users in our training dataset only tweeted once during that period, while some of them went as far as tweeting several hundred times.
 
- 
+ <br>
 
 ### 5 Most talkative users data
 
@@ -266,8 +262,6 @@ About a quarter of the twitter users in our training dataset only tweeted once d
 ```python
 emote[emote["user"] == "lost_dog"].head() # SPAM : all the 446 same message "@random_user I am lost. Please help me find a good home."
 ```
-
-
 
 
 <div>
@@ -355,7 +349,7 @@ emote[emote["user"] == "lost_dog"].head() # SPAM : all the 446 same message "@ra
 </table>
 </div>
 
-
+<br>
 
 
 ```python
@@ -363,8 +357,6 @@ emote[emote["user"] == "webwoke"].head() # SPAM : making request to visit some r
 #emote[emote["user"] == "webwoke"].sum() # 68/292 positive messages
 
 ```
-
-
 
 
 <div>
@@ -453,14 +445,11 @@ emote[emote["user"] == "webwoke"].head() # SPAM : making request to visit some r
 </div>
 
 
-
+<br>
 
 ```python
 emote[emote["user"] == "tweetpet"].head() # SPAM : 239 messages asking to "@someone_else Clean me"
 ```
-
-
-
 
 <div>
 <style scoped>
@@ -548,14 +537,12 @@ emote[emote["user"] == "tweetpet"].head() # SPAM : 239 messages asking to "@some
 </div>
 
 
-
+<br>
 
 ```python
 emote[emote["user"] == "VioletsCRUK"].sum() # 180/234 positive messages
 emote[emote["user"] == "VioletsCRUK"].head()
 ```
-
-
 
 
 <div>
@@ -643,16 +630,13 @@ emote[emote["user"] == "VioletsCRUK"].head()
 </table>
 </div>
 
-
+<br>
 
 
 ```python
 emote[emote["user"] == "mcraddictal"].sum() # 54/226 positive messages
 emote[emote["user"] == "mcraddictal"].head()
 ```
-
-
-
 
 <div>
 <style scoped>
@@ -744,14 +728,13 @@ emote[emote["user"] == "mcraddictal"].head()
 Out of the 5 users that tweeted the most, it seems like 3 of them are some kind of bot or spam bot. The 4th and 5th ones seem to be random users from which we got a lot tweets in the database.
 All these users show pattern in their sent tweets. Indeed, they tend to send messages that are not balanced towards their emotion. 'Lost_dog' and 'tweetpet' both sent only negative tweets out of hundreds of them. 'webwoke' and 'mcraddictal' also sent largely negative tweets while 'VioletsCRUK' sent mostly positive tweets. We'll take this information into account when trying to classify further tweets.
 
+<br>
+
 
 ```python
 emote = emote[['emotion', 'user', 'text']]
 emote.head()
 ```
-
-
-
 
 <div>
 <style scoped>
@@ -835,8 +818,7 @@ print('Largest tweet length:', max_tweet)
 
     Largest tweet length: 110
     
-
- 
+<br>
 
 ### Symbols
 Make text lowercase, remove text in square brackets,remove links,remove punctuation
@@ -856,14 +838,12 @@ def clean_text(text):
     return text
 ```
 
+<br>
 
 ```python
 emote['text_clean'] = emote['text'].apply(clean_text) #maybe remove the name with the @
 emote.head()
 ```
-
-
-
 
 <div>
 <style scoped>
@@ -959,7 +939,7 @@ emote.head()
 
 
 
- 
+ <br>
 
 ### Stopwords
 Remove stopwords (a list of not useful english words like 'the', 'at', etc.). It permits to reduce dimension of the data when tokenizing.
@@ -1074,7 +1054,7 @@ emote.head()
 </div>
 
 
-
+<br>
  
 
 ### Stemming/ Lematization
@@ -1193,7 +1173,7 @@ emote.head()
 
 
 
- 
+ <br>
 
 ### Wordclouds
 
@@ -1224,7 +1204,7 @@ plt.show()
 
 
     
-![png](output_42_0.png)
+![png](/img/posts/twitter_SA/output_42_0.png)
     
 
 
@@ -1248,7 +1228,7 @@ plt.show()
 
 
     
-![png](output_43_0.png)
+![png](/img/posts/twitter_SA/output_43_0.png)
     
 
 
@@ -1264,7 +1244,7 @@ X_train, X_test, y_train, y_test = train_test_split((emote.text + emote.user), e
 print("First 5 entries of training dataset :", X_train.head())
 ```
 
- 
+ <br>
 
 ### Feature Engineering : Bag of words
 
@@ -1293,13 +1273,13 @@ X_train_final = tfidftransformer.fit_transform(X_train_counts)
 X_train_final.shape
 ```
 
- 
+ <br>
 
 # III. Model Selection
 
 The aim of this project is to learn from our tweet training dataset in order to being able to classify new tweets as being of positive or negative emotion. This is a classification task with binary outcome. There are several models that we've seen in class that can be of help here. We decided to present you our 3 best classification regression models. This is followed by attempts at building a Neural Network model that could predict better the tweet sentiment.
 
- 
+ <br>
 
 ## Preprocessing Effectiveness
 
@@ -1401,7 +1381,7 @@ We achieved a prediction score of 77.7% with 50 000 observations using logistic 
 
 ##### In this case, we fitted the same models once without any kind of preprocess and a second time using various preprocess methods. Selecting each of these methods separately (not shown here) guided us in the same direction. We found no prepocess techniques worth adding in the aim of better prediction accuracy for this dataset.
 
- 
+ <br>
 
 ## Support Vector Machine (SVM)
 
@@ -1556,7 +1536,7 @@ for param_name in sorted(parameters_svm.keys()):
 
 We achieve a score of 79.4% using less than 10% of our training data. This score will be compared with next models' ones.
 
- 
+ <br>
 
 ## Logistic Classification
 
@@ -1632,7 +1612,7 @@ for param_name in sorted(parameters_log.keys()):
 
 Using the logistic regression model, we achieve a score of 78.6%, almost a 1% less than SVM on the sample size. Logistic classification is a quite accurate method.
 
- 
+ <br>
 
 ## Multinomial Naive Bayes (MNB)
 
@@ -1701,7 +1681,7 @@ for param_name in sorted(parameters_mnb.keys()):
 
 Using only 100 000 observations, we were able here to achieve a score with 77.8% prediction using MNB, a bit less than using logistic regression and even lesser than SVM. These examples were meant to show the difference between each models. We are aware there is some arbitrary choices here in the choice of the parameters for the several Cross-Validation. However, we chose these parameters based on many attempts of finding the best accuracy for each type of model. Overall, SVM performed better than the 2 other shown models here.
 
- 
+ <br>
 
 ## Long Short Term Memory (LSTM) Neural Network
 
@@ -1768,7 +1748,7 @@ print('Test accuracy:', acc)
 
 This 80.92% prediction score reflects the accuracy taking 320 000 observations into fitting. Another one using the whole dataset went to 83% on kaggle.
 
- 
+<br>
 
 # IV. Best Model Analysis & Kaggle Submission
 
@@ -1814,19 +1794,23 @@ output=pd.DataFrame(data={"Id":emote_test["Id"],"emotion":predictions_SVM})
 output.to_csv(path_or_buf=r"C:\Users\rened\Desktop\____Master in Statistics\__Machine Learning\Project\results_SVM_0.8.csv", index=False)
 ```
 
- 
+ <br>
 
 # V. Conclusion
 
 This project represents our final class work in this Machine Learning course. We applied most of the methods and models seen in class in order to get the best predictive performance we could. Various data preprocessing methods were tried but none of them ended up increasing our predictive performance. A high number of models and optimization led us towards this final score of about 83% of sentiment prediction using the Support Vector Machine model. Many attempts at using RNN or CNN or alternative models such as BERT were unsuccessful in this case, with prediction scores a bit lower than our conventional model. 
 
- 
+ <br>
 
 # VI. Appendix
+
+<br>
 
 ## BERT 
 This is an attempt at implementing a sophisticated model trained by Google, BERT. 
 Unfortunately, BERT model was computationaly too costly and so too difficult for us to implement looking at our time and computation power restrictions. Here's how it would have gone with more resources :
+
+<br>
 
 ## EDA and Preprocessing
 
@@ -2114,6 +2098,7 @@ df50.text.iloc[0]
     'Sleep mode initiated...long day ahead. Hopefully new things to share tomorrow. Anyone want to see anything at the MK, let me know. '
 
 
+<br>
 
 ## Train test split
 
@@ -2196,6 +2181,7 @@ df50.groupby(['emotion', 'data_type']).count()
 </div>
 
 
+<br>
 
 ## Loading Tokenizer and Encoding the Data
 
@@ -2273,6 +2259,8 @@ dataset_train = TensorDataset(input_ids_train, attention_masks_train, emotion_tr
 dataset_test = TensorDataset(input_ids_test, attention_masks_test, emotion_test)
 ```
 
+<br>
+
 ## Setting up BERT pretrained model
 
 
@@ -2305,6 +2293,7 @@ model = BertForSequenceClassification.from_pretrained(
     Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
     You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
     
+<br>
 
 ## Creating Data Loaders
 
@@ -2331,6 +2320,8 @@ dataloader_test = DataLoader(
 )
 #our dataset is now in a dataloader
 ```
+
+<br>
 
 ## Setting up Optimizer and Scheduler
 
@@ -2362,6 +2353,8 @@ scheduler = get_linear_schedule_with_warmup(
 )
 ```
 
+<br>
+
 ## Defining our Performance Metrics
 
 
@@ -2386,6 +2379,8 @@ def accuracy_per_class(preds, emotion):
         print(f'Class:{emotion_dict_inverse[emotion]}')
         print(f'Accuracy: {len(y_preds[y_preds==label])}/{len(y_true)}\n')
 ```
+
+<br>
 
 ## Creating our Training Loop
 
@@ -2497,6 +2492,8 @@ for epoch in tqdm(range(1, epochs+1)):
     tqdm.write(f'Test loss:{test_loss}')
     tqdm.write(f'F1 score (weighted): {test_f1}')
 ```
+
+<br>
 
 ## Loading and Evaluating model
 
