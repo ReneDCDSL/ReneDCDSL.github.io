@@ -1,16 +1,16 @@
 ---
 layout: post
-title: "Evolution of the USA political cleavage"
+title: "Evolution of the political cleavage in the USa"
 subtitle: "An analysis over a large set of politicians' quotes "
 #date:
 background: '/img/posts/USA_Political_Cleavage/dem_vs_repu_1.jpg'
+link: 'https://github.com/ReneDCDSL/ada-2021-project-apa'
 ---
-
-## Evolution of the political cleavage in the USA
 
 Donald Trumps usage of Twitter especially following his election in 2016 was only one illustration of the Left-Right political cleavage in the United States of America. The political cleavage can be defined as the cultural and ideological "gap" that divides groups of differing political interest. Leveraging the [Quotebank dataset](https://zenodo.org/record/4277311), a dataset of quotes extracted from news articles, we propose to measure the evolution of this cleavage across time, and especially focus on how major elections i.e. the presidential election or midterms affect the cleavage short-term between January 2015 and April 2020. We're expecting this cleavage to increase, specially around events such as the presidential election or some specific events like the outbreak of the corona epidemic (2020), [major mass shootings](https://en.wikipedia.org/w/index.php?title=List_of_mass_shootings_in_the_United_States&oldid=1054289389), the first impeachment of Trump (2019), or the riot in Charlottesville (2017). We are not looking at events from the later half of 2020, and hence, the January 6th riot (2021), Joe Bidens election (2020), and him subsequently taking office (2021) are omitted.
 
 For this analysis, we propose to measure the cleavage through a **sentiment score** extracted over the quotes from contemporary political members of the republican and democratic parties targeting members of the other party. The extracted scores range from -1 (very negative) to +1 (very positive).
+
 
 ## Overall look
 

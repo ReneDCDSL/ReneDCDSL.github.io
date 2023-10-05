@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>
+    Pair digits classification
+  </title>
+
+  <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+  <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="{{"/assets/main.css" | relative_url }}">
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
+
+  <SCRIPT SRC='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></SCRIPT>
+  <SCRIPT>MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}})</SCRIPT>
+</head>
+
+
+<body>
+
+  <header class="masthead" style="background-image: url('/img/posts/twitter_SA/twitter_SA.jpg');">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="post-heading">
+              <h1><a href="https://github.com/ReneDCDSL/DL_Final_Project/tree/main/p1">Pair digits classification</a></h1>
+              <h2 class="subheading">Comparison of a regular Neural Network to one with a Siamese structure</h2>
+              <span class="meta"> {{ page.date | date: '%B %d, %Y' }} &middot; {% include read_time.html
+                content=page.content %}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+  {% include navbar.html %}
+
+    <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+
+        <p>by <a href="https://www.linkedin.com/in/rené-de-champs-2679bb269/" style="text-decoration: none">René de CHAMPS</a>, Olivier GROGNUZ & Thiago BORBA</p>
+        
+        <h2>Abstract</h2>
+        <p>In this mini-project, we observe how different deep learning techniques affect a given model’s performance. In this context, we investigate the use 
+          of batch normalization, weight sharing and auxiliary losses to reduce computing time and model complexity, while achieving high performance.</p>
+
+        <h2>Introduction</h2>  
+
+        <p>The increase in computational power has led to the development of deep neural networks, which have given way to unforeseen performances and increased 
+        scientific interest. However, training these networks is not an easy task. Problems related to overfitting, gradient vanishing or exploding and computational 
+        time has led researchers to focus on methods that could mitigate those problems. One of them is to use auxiliary losses to help back-propagating the gradient 
+        signal by adding small classifiers to early stage modules of a deep  network. Their weighted losses is then summed to the loss of the main model. This was 
+        introduced by <a href="https://arxiv.org/abs/1409.4842" style="text-decoration: none">Google LeNet’s paper</a>. On the other hand, weight sharing is a powerful tool 
+        that was introduced for the first time by <a href="https://www.nature.com/articles/323533a0" style="text-decoration: none">scientists in 1985</a> that lets you 
+        reduce the number of free parameters in your model by making several connections that are controlled by the same parameter. This decreases the degree of freedom of 
+        a given model. Finally, we also make extensive use of <a href="https://arxiv.org/abs/1502.03167" style="text-decoration: none">batch normalization</a> to stabilize 
+        the gradient during training. Without it, our models have shown to be unstable. The task at hand was to classify a pair of two handwritten digits from the 
+        <a href="https://www.semanticscholar.org/paper/The-mnist-database-of-handwritten-digits-LeCun-Cortes/dc52d1ede1b90bf9d296bc5b34c9310b7eaa99a2" style="text-decoration: none">MNIST dataset</a>. 
+        Instead of the original images, we work with a pair of 14x14 grayscale images generated from the original dataset. With $x_{j1}$ and $x_{j2}$ the two Figure 1: Siamese 
+        network architecture. digits of the pair xj, the class c is cj = 1(x1 ≤ x2), where 1 is the indicator function. In other words, we classify the pair xj as being 1 
+        if the first digit is smaller or equal than the second digit, and 0 otherwise. To achieve that, we first focus on a basic ConvNet architecture with batch normalization 
+        (Baseline). Then, we propose another architecture, 
+        where the pair is passed  hrough a siamese network in which each digit is trained with the same weights. For the siamese network, we evaluate the performance twice, 
+        once by optimizing the network with a linear combination of the weighted losses (Siamese2) and once using each branch of the siamese network to classify the digits 
+        separately (Siamese10).</p>
+
+
+        [1]:  (Christian Szegedy, Wei Liu, Yangqing Jia, Pierre Sermanet, Scott E. Reed, Dragomir Anguelov, Dumitru Erhan, Vincent Vanhoucke, and Andrew Rabinovich. Going deeper with convolutions. CoRR, abs/1409.4842, 2014.)
+        [2]:  (David E. Rumelhart, Geoffrey E. Hinton, and Ronald J. Williams. Learning internal representations by error propagation. 1986.))
+        [3]:  (Sergey Ioffe and Christian Szegedy. Batch normalization: Accelerating deep network training by reducing internal covariate shift. CoRR, abs/1502.03167, 2015.)
+        [4]:  (Yann LeCun, Corinna Cortes, and CJ Burges. Mnist handwritten digit database. ATT Labs [Online]. Available: http://yann.lecun.com/exdb/mnist, 2, 2010.)
+
+        <hr>
+
+        <div class="clearfix">
+
+          {% if page.previous.url %}
+          <a class="btn btn-primary float-left" href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ page.previous.title }}">&larr; Previous<span class="d-none d-md-inline">
+              Post</span></a>
+          {% endif %}
+          {% if page.next.url %}
+          <a class="btn btn-primary float-right" href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ page.next.title }}">Next<span class="d-none d-md-inline">
+              Post</span> &rarr;</a>
+          {% endif %}
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  {% include footer.html %}
+
+  {% include scripts.html %}
+
+  {% include google-analytics.html %}
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

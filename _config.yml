@@ -2,7 +2,7 @@ title:              René's Portfolio
 email:              renedcdsl@hotmail.fr
 description:        My Data Science projects
 author:             René de Champs
-baseurl:            ""
+#baseurl:            ""
 url:                "https://renedcdsl.github.io"
 
 # Social Profiles

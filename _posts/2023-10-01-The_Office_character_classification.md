@@ -4,7 +4,7 @@ title: "The Office Character Classifier"
 subtitle: "A quest to find which character said a given sentence"
 #date:
 background: '/img/posts/The_Office_classification/bg_michael_3.jpg'
-url: 'https://www.google.com'
+link: 'https://github.com/ReneDCDSL/The_Office_character_classification'
 ---
 
 Here is an attempt at creating a model that tries to recognize the characters from the famous 'The Office' show from their quotes. I am training this model on a dataset containing all the quotes from the show (minus 20% for testing). I then compare various ML and DL models accuracy.

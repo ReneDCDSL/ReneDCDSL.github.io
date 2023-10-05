@@ -4,6 +4,7 @@ title: "Twitter Sentiment Analysis"
 subtitle: "Sentiment Analysis classification task performed over a million tweets"
 #date:
 background: '/img/posts/twitter_SA/twitter_SA.jpg'
+link: 'https://github.com/ReneDCDSL/Twitter_Sentiment_Analysis'
 ---
 
 # [S403011] [Machine Learning Project](https://github.com/ReneDCDSL/Twitter_Sentiment_Analysis)
