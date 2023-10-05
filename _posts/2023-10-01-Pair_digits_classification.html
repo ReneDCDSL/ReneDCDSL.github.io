@@ -104,7 +104,8 @@
           ConvNet with shared weights. Each ConvNet has a convolutional layer with 1 channel as input, a maximum pooling layer, of kernel size 2, ReLU, batch normalization.
           The convolutional block is then repeated, but without the maximum pooling. Afterward, the output is passed on to a fully connected layer, the ReLU activation function, a
           batch normalization layer, a last dense linear layer with 10 outputs for the 10 different possible classes and the ReLU non-linearity. Finally, both branches are 
-          concatenated and passed on to a dense layer with two outputs and a ReLU activation function to get the final classification. <a href="#figure1" style="text-decoration: none;"">Figure 1</a> illustrates the siamese architecture.</p>
+          concatenated and passed on to a dense layer with two outputs and a ReLU activation function to get the final classification. 
+          <a href="#figure1" style="text-decoration: none;""><i>Figure 1</i></a> illustrates the siamese architecture.</p>
         
         <br>
         <figure id="figure2">
@@ -126,8 +127,8 @@
           convolutional layer was 64 and 8 for the second. The fully connected layer has 64 units and uses the 10-classes and 2-classes losses equally. The
           optimal learning rate was found to be η = 1, which seems surprisingly high. At last, for Siamese10, where we only trained the network using the 10-classes losses, 
           the optimal parameters where found to be 64 output channels for the first convolutional layer, 16 for the second, 64 units for the linear layer and a
-          learning rate of η = 0.1. The accuracy and the accumulated loss are illustrated for the three models in <a href="#figure2" style="text-decoration: none;">Figure 2</a>. The test accuracies computed on 10 independent
-          datasets are presented in <a href="#table1" style="text-decoration: none;">Table 1</a>.</p>
+          learning rate of η = 0.1. The accuracy and the accumulated loss are illustrated for the three models in <a href="#figure2" style="text-decoration: none;"><i>Figure 2</i></a>. 
+          The test accuracies computed on 10 independent datasets are presented in <a href="#table1" style="text-decoration: none;"><i>Table 1</i></a>.</p>
 
         <br>
         <table class="center" id="table1">
