@@ -1,14 +1,13 @@
 ---
 layout: post
-title: "Twitter Sentiment Analysis"
+title: "[S403011] Twitter Sentiment Analysis"
 subtitle: "Sentiment Analysis classification task performed over a million tweets"
 #date:
 background: '/img/posts/twitter_SA/twitter_SA.jpg'
 link: 'https://github.com/ReneDCDSL/Twitter_Sentiment_Analysis'
 ---
 
-# [S403011] [Machine Learning Project](https://github.com/ReneDCDSL/Twitter_Sentiment_Analysis)
-##### by [De CHAMPS René](https://www.linkedin.com/in/rené-de-champs-2679bb269/) & [MAULET Grégory](https://www.linkedin.com/in/gregory-maulet-4a1879140/)
+by [De CHAMPS René](https://www.linkedin.com/in/rené-de-champs-2679bb269/) & [MAULET Grégory](https://www.linkedin.com/in/gregory-maulet-4a1879140/)
 
 <br>
 
