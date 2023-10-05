@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>
+    Pair digits classification
+  </title>
+
+  <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+  <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="{{"/assets/main.css" | relative_url }}">
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
+
+  <SCRIPT SRC='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></SCRIPT>
+  <SCRIPT>MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}})</SCRIPT>
+
+  <style>
+    table,th,td{border:1px solid #cccccc}
+  </style>
+</head>
+
+
+<body>
+
+  <header class="masthead" style="background-image: url('/img/posts/DL/network.png');">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="post-heading">
+              <h1><a href="https://github.com/ReneDCDSL/DL_Final_Project/tree/main/p1">Pair digits classification</a></h1>
+              <h2 class="subheading">Comparison of a regular Neural Network to one with a Siamese structure</h2>
+              <span class="meta"> {{ page.date | date: '%B %d, %Y' }} &middot; {% include read_time.html
+                content=page.content %}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+  {% include navbar.html %}
+
+    <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+   
+        <h1>Abstract</h1>
+        <p>In this mini-project, we observe how different deep learning techniques affect a given model’s performance. In this context, we investigate the use 
+          of batch normalization, weight sharing and auxiliary losses to reduce computing time and model complexity, while achieving high performance.</p>
+
+        <h2>Introduction</h2>  
+
+        <p>The increase in computational power has led to the development of deep neural networks, which have given way to unforeseen performances and increased 
+        scientific interest. However, training these networks is not an easy task. Problems related to overfitting, gradient vanishing or exploding and computational 
+        time has led researchers to focus on methods that could mitigate those problems. One of them is to use auxiliary losses to help back-propagating the gradient 
+        signal by adding small classifiers to early stage modules of a deep  network. Their weighted losses is then summed to the loss of the main model. This was 
+        introduced by <a href="https://arxiv.org/abs/1409.4842" style="text-decoration: none">Google LeNet’s paper</a>. On the other hand, weight sharing is a powerful tool 
+        that was introduced for the first time by <a href="https://www.nature.com/articles/323533a0" style="text-decoration: none">scientists in 1985</a> that lets you 
+        reduce the number of free parameters in your model by making several connections that are controlled by the same parameter. This decreases the degree of freedom of 
+        a given model. Finally, we also make extensive use of <a href="https://arxiv.org/abs/1502.03167" style="text-decoration: none">batch normalization</a> to stabilize 
+        the gradient during training. Without it, our models have shown to be unstable. The task at hand was to classify a pair of two handwritten digits from the 
+        <a href="https://www.semanticscholar.org/paper/The-mnist-database-of-handwritten-digits-LeCun-Cortes/dc52d1ede1b90bf9d296bc5b34c9310b7eaa99a2" style="text-decoration: none">MNIST dataset</a>. 
+        Instead of the original images, we work with a pair of 14x14 grayscale images generated from the original dataset. With \(x_{j1}\) and \(x_{j2}\) the two digits of the pair 
+        \(x_j\), the class \(c\) is 
+        $$c_j = \unicode{x1D7D9}(x_1 ≤ x_2),$$
+        where \(\unicode{x1D7D9}\) is the indicator function. In other words, we classify the pair \(x_j\) as being 1 
+        if the first digit is smaller or equal than the second digit, and 0 otherwise. To achieve that, we first focus on a basic ConvNet architecture with batch normalization 
+        (Baseline). Then, we propose another architecture, 
+        where the pair is passed  hrough a siamese network in which each digit is trained with the same weights. For the siamese network, we evaluate the performance twice, 
+        once by optimizing the network with a linear combination of the weighted losses (Siamese2) and once using each branch of the siamese network to classify the digits 
+        separately (Siamese10).</p>
+        
+        <br>
+        <figure id="figure1">
+          <img src="/img/posts/DL/siamese_network.jpg" alt="Siamese network architecture">
+          <figcaption style="text-align: center;">Figure 1: Siamese network architecture.</figcaption>
+        </figure>
+        <br>
+
+        <h1>Models</h1>
+
+        <h2>Baseline</h2>
+        
+        <p>The Baseline model consists of a convolutional layer with 2 channels as input and kernel size 4, a maximum pooling layer of kernel size 4, the ReLU activation function 
+          and a batch normalization layer; another convolutional layer with kernel size 4, ReLU and batch normalization. After the convolutional blocks, we added two fully 
+          connected layers with ReLU non-linearities and lastly a dense layer with two output units. This model was optimized using stochastic gradient descent (SGD) and the loss 
+         was computed using cross-entropy.</p>
+
+        <h2>Siamese</h2>
+
+        <p>The Siamese network has a similar base as the baseline model. However, we now split the pair into two separate 1-channel images that will serve as the input of a 
+          ConvNet with shared weights. Each ConvNet has a convolutional layer with 1 channel as input, a maximum pooling layer, of kernel size 2, ReLU, batch normalization.
+          The convolutional block is then repeated, but without the maximum pooling. Afterward, the output is passed on to a fully connected layer, the ReLU activation function, a
+          batch normalization layer, a last dense linear layer with 10 outputs for the 10 different possible classes and the ReLU non-linearity. Finally, both branches are 
+          concatenated and passed on to a dense layer with two outputs and a ReLU activation function to get the final classification. <a href="#figure1" style="text-decoration: none;"">Figure 1</a> illustrates the siamese architecture.</p>
+        
+        <br>
+        <figure id="figure2">
+          <img src="/img/posts/DL/acc_and_loss.jpg" alt="Accuracy and accumulated loss">
+          <figcaption style="text-align: center;">Figure 2: Accuracy and accumulated loss of the training and test sets for (a) Baseline, (b)
+            Siamese2 and (c) Siamese10, respectively. The colored areas indicate the relevant 1-std margins.</figcaption>
+         </figure>
+        <br>
+         
+
+        <h1>Results</h1>
+
+      
+         <p>The two networks were tested with different architectures. Once the above-described architectures were retained, we performed a gridsearch
+          and a 10-folds cross validation to find the optimal number of channels, units in the fully connected layers and the learning rate. The
+          detailed implementation can be found in the gridsearch.py file. For Baseline, we found the optimal number of channels for the two convolutional layers to
+          be 64 and the two fully connected linear layers have each 128 units. The optimal learning rate is η = 0.1.
+          For Siamese2, when using the auxiliary losses to make a final prediction, we found that the optimal number of output channels for the first
+          convolutional layer was 64 and 8 for the second. The fully connected layer has 64 units and uses the 10-classes and 2-classes losses equally. The
+          optimal learning rate was found to be η = 1, which seems surprisingly high. At last, for Siamese10, where we only trained the network using the 10-classes losses, 
+          the optimal parameters where found to be 64 output channels for the first convolutional layer, 16 for the second, 64 units for the linear layer and a
+          learning rate of η = 0.1. The accuracy and the accumulated loss are illustrated for the three models in <a href="#figure2" style="text-decoration: none;">Figure 2</a>. The test accuracies computed on 10 independent
+          datasets are presented in <a href="#table1" style="text-decoration: none;">Table 1</a>.</p>
+
+        <br>
+        <table class="center" id="table1">
+          <caption style="white-space: nowrap; overflow: hidden; color: black;">Table 1: Best accuracy for the different models.</caption>
+          <tr>
+            <th></th>
+            <th>Accuracy (%)</th>
+            <th>Std</th>
+          </tr>
+          <tr>
+            <td>Baseline</td>
+            <td>83.23</td>
+            <td>1.17</td>
+          </tr>
+          <tr>
+            <td>Siamese2</td>
+            <td>91.50</td>
+            <td>1.65</td>
+          </tr>
+          <tr>
+            <td>Siamese10</td>
+            <td>97.23</td>
+            <td>0.57</td>
+          </tr>
+        </table>
+        <br>
+
+        <h2>Discussion</h2>
+
+        <p>We were surprised to see that the naive Baseline model performed relatively well when choosing optimal parameters. The Siamese2
+          model achieved a satisfying accuracy. However, we must observe that it is more unstable than the other models. Further work could
+          focus on the apparent instability at epoch 24 which is driven by only 2 out of the 10 runs. One interesting thing to see is that the gradient
+          was immediately recovered at the last epoch. More tests should be conducted to try to understand the cause of it. On the other hand, the
+          Siamese10 model achieved the highest accuracy with the greatest stability. Basically, this model is trained to correctly recognize the correct class
+          of each separate digit. We hypothesized, though, that Siamese2 would be able to, at least, match the 10-classes accuracy, but that is clearly not the case.</p>
+
+
+        <br>
+          <p>by <a href="https://www.linkedin.com/in/rené-de-champs-2679bb269/" style="text-decoration: none">René de CHAMPS</a>, Olivier GROGNUZ & Thiago BORBA</p>
+        <hr>
+
+        <div class="clearfix">
+
+          {% if page.previous.url %}
+          <a class="btn btn-primary float-left" href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ page.previous.title }}">&larr; Previous<span class="d-none d-md-inline">
+              Post</span></a>
+          {% endif %}
+          {% if page.next.url %}
+          <a class="btn btn-primary float-right" href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ page.next.title }}">Next<span class="d-none d-md-inline">
+              Post</span> &rarr;</a>
+          {% endif %}
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  {% include footer.html %}
+
+  {% include scripts.html %}
+
+  {% include google-analytics.html %}
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

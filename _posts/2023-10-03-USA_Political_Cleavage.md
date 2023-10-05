@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Evolution of the political cleavage in the USa"
+title: "Evolution of the political cleavage in the USA"
 subtitle: "An analysis over a large set of politicians' quotes "
 #date:
 background: '/img/posts/USA_Political_Cleavage/dem_vs_repu_1.jpg'
