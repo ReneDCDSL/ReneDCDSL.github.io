@@ -7,6 +7,78 @@ background: '/img/posts/The_Office_classification/bg_michael_3.jpg'
 link: 'https://github.com/ReneDCDSL/The_Office_character_classification'
 ---
 
+<style>
+  /* Style for tables */
+  table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+ }
+
+  table th,
+  table td {
+      padding: 8px 12px;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+  }
+  /*background color for columns and rows' names */
+  table th {
+      background-color: #f0f0f0;
+  }
+
+  /* Style for code blocks */
+  pre {
+      background-color: #f4f4f4;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      line-height: 1.4;
+      font-size: 14px;
+      border-radius: 4px;
+  }
+
+  pre code {
+      display: block;
+      padding: 0;
+      margin: 0;
+      font-family: Monaco, monospace;
+  }
+
+  /* Style for inline code */
+  code {
+      background-color: #f4f4f4;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-family: Monaco, monospace;
+      font-size: 14px;
+  }
+
+  /* Style for headers */
+  h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+  }
+
+  /* Style for lists */
+  ul, ol {
+      margin-left: 20px;
+      margin-bottom: 20px;
+  }
+
+  /* Style for links */
+  a {
+      color: #007acc;
+      text-decoration: none;
+  }
+
+  a:hover {
+      text-decoration: underline;
+  }
+</style>
+
 Here is an attempt at creating a model that tries to recognize the characters from the famous 'The Office' show from their quotes. I am training this model on a dataset containing all the quotes from the show (minus 20% for testing). I then compare various ML and DL models accuracy.
 
 <br>
@@ -130,12 +202,12 @@ TheOffice.head(5)
     }
 
     .dataframe thead th {
-        text-align: right;
+        text-align: center;
     }
 </style>
 <table border="1" class="dataframe">
   <thead>
-    <tr style="text-align: right;">
+    <tr style="text-align: center;">
       <th></th>
       <th>season</th>
       <th>episode</th>
@@ -276,12 +348,12 @@ TheOffice_main
     }
 
     .dataframe thead th {
-        text-align: right;
+        text-align: center;
     }
 </style>
 <table border="1" class="dataframe">
   <thead>
-    <tr style="text-align: right;">
+    <tr style="text-align: center;">
       <th></th>
       <th>season</th>
       <th>episode</th>
@@ -437,12 +509,12 @@ TheOffice2
     }
 
     .dataframe thead th {
-        text-align: right;
+        text-align: center;
     }
 </style>
 <table border="1" class="dataframe">
   <thead>
-    <tr style="text-align: right;">
+    <tr style="text-align: center;">
       <th></th>
       <th>season</th>
       <th>episode</th>
@@ -864,12 +936,12 @@ pd.DataFrame(data, index=['Accuracy: '], columns=column_names)
     }
 
     .dataframe thead th {
-        text-align: right;
+        text-align: center;
     }
 </style>
 <table border="1" class="dataframe">
   <thead>
-    <tr style="text-align: right;">
+    <tr style="text-align: center;">
       <th></th>
       <th>Logistic Regression</th>
       <th>Naive Bayes</th>
