@@ -139,7 +139,7 @@ background: '/img/posts/sales/bg_sales_3.jpg'
 		<li><a href="#analysis" class="col_blue">Analysis</a></li>
 		<ul>
 			<li><a href="#kpi" class="col_blue">Key Performance Indicator</a></li>
-
+			<li><a href="#dashboard" class="col_blue">Dashboard</a></li>
 		</ul>
 	</ul>
 
@@ -704,9 +704,44 @@ background: '/img/posts/sales/bg_sales_3.jpg'
 	</p>
 	<p>
 		Here is the DAX formula to create the variable in Power BI:
-		<br>
-		Revenue&nbsp;=<br><span class="Keyword" style="color:#035aca">SUM</span><span class="Parenthesis" style="color:#808080">&nbsp;(</span>&nbsp;'sales&nbsp;transactions'[sales_amount]&nbsp;<span class="Parenthesis" style="color:#808080">)</span><br>
+		<pre class="sql-code">
+Revenue&nbsp;=<br><span class="Keyword" style="color:#035aca">SUM</span><span class="Parenthesis" style="color:#808080">&nbsp;(</span>&nbsp;'sales&nbsp;transactions'[sales_amount]&nbsp;<span class="Parenthesis" style="color:#808080">)</span></pre>
+		</p>
+
+
+	<h5 id="profit_margin">Profit Margin %</h5>
+	<p>
+		The Profit Margin % is the percentage of profit among the total revenue.
 	</p>
+	<p>
+		Here is the DAX formula to create the variable in Power BI:
+		<pre class="sql-code">
+Profit&nbsp;Margin&nbsp;%&nbsp;=<br><span class="Keyword" style="color:#035aca">DIVIDE</span><span class="Parenthesis" style="color:#808080">&nbsp;(</span><br><span class="indent4">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="Keyword" style="color:#035aca">SUM</span><span class="Parenthesis" style="color:#808080">&nbsp;(</span>&nbsp;'sales&nbsp;transactions'[profit_margin]&nbsp;<span class="Parenthesis" style="color:#808080">)</span>,<br><span class="indent4">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="Keyword" style="color:#035aca">SUM</span><span class="Parenthesis" style="color:#808080">&nbsp;(</span>&nbsp;'sales&nbsp;transactions'[sales_amount]&nbsp;<span class="Parenthesis" style="color:#808080">)</span>,<br><span class="indent4">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="Number" style="color:#EE7F18">0</span><br><span class="Parenthesis" style="color:#808080">)</span></pre>
+	</p>
+
+
+	<h5 id="profit_margin_percentage">Profit Margin Contribution %</h5>
+	<p>
+		The Profit Margin Contribution % is the relative profit of a given market, producer or customer, accross all the others.
+	</p>
+	<p>
+		Here is the DAX formula to create the variable in Power BI:
+		<pre class="sql-code">
+Profit&nbsp;Margin&nbsp;Contribution&nbsp;%&nbsp;=<br><span class="Keyword" style="color:#035aca">DIVIDE</span><span class="Parenthesis" style="color:#808080">&nbsp;(</span><br><span class="indent4">&nbsp;&nbsp;&nbsp;&nbsp;</span>[Total&nbsp;Profit&nbsp;Margin],<br><span class="indent4">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="Keyword" style="color:#035aca">CALCULATE</span><span class="Parenthesis" style="color:#808080">&nbsp;(</span><br><span class="indent8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="Keyword" style="color:#035aca">SUM</span><span class="Parenthesis" style="color:#808080">&nbsp;(</span>&nbsp;'sales&nbsp;transactions'[profit_margin]&nbsp;<span class="Parenthesis" style="color:#808080">)</span>,<br><span class="indent8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="Keyword" style="color:#035aca">ALL</span><span class="Parenthesis" style="color:#808080">&nbsp;(</span>&nbsp;'sales&nbsp;products'&nbsp;<span class="Parenthesis" style="color:#808080">)</span>,<br><span class="indent8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="Keyword" style="color:#035aca">ALL</span><span class="Parenthesis" style="color:#808080">&nbsp;(</span>&nbsp;'sales&nbsp;customers'&nbsp;<span class="Parenthesis" style="color:#808080">)</span>,<br><span class="indent8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="Keyword" style="color:#035aca">ALL</span><span class="Parenthesis" style="color:#808080">&nbsp;(</span>&nbsp;'sales&nbsp;markets'&nbsp;<span class="Parenthesis" style="color:#808080">)</span><br><span class="indent4">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="Parenthesis" style="color:#808080">)</span><br><span class="Parenthesis" style="color:#808080">)</span></pre>
+	</p>
+
+
+	<h3 id="dashboard">Dashboard</h3>
+
+
+
+
+
+
+
+
+
+
 
 </body>
 
