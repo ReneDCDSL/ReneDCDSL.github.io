@@ -3,7 +3,7 @@ layout: post
 title: "Evolution of the Political Cleavage in the USA"
 subtitle: "An analysis over a very large set of politicians quotes "
 #date:
-skills: "[NLP] [ML] [Regression] [Sentiment Analysis]"
+skills: "[NLP] [ML] [Time Series] [Sentiment Analysis]"
 background: '/img/posts/USA_Political_Cleavage/dem_vs_repu_1.jpg'
 link: 'https://github.com/ReneDCDSL/ada-2021-project-apa'
 ---
