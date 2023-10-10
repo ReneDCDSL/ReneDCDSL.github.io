@@ -3,6 +3,7 @@ layout: post
 title: "The Office Character Classifier"
 subtitle: "A quest to find which character said a given sentence"
 #date:
+skills: "[NLP] [ML] [Transformers]"
 background: '/img/posts/The_Office_classification/bg_michael_3.jpg'
 link: 'https://github.com/ReneDCDSL/The_Office_character_classification'
 ---
@@ -70,7 +71,6 @@ link: 'https://github.com/ReneDCDSL/The_Office_character_classification'
 
   /* Style for links */
   a {
-      color: #007acc;
       text-decoration: none;
   }
 

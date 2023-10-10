@@ -59,6 +59,12 @@ header.masthead {
             font-size: 35px;
         }
 
+        .skills-heading{
+            color: rgb(134, 139, 143);
+            margin-left: 10px;
+            font-weight: 600;
+            font-size: 17px;
+        }
         .meta,
         .subheading {
             line-height: 1.1;
@@ -81,6 +87,7 @@ header.masthead {
             a {
                 color: $white;
             }
+
         }
 
         @media only screen and (min-width: 768px) {

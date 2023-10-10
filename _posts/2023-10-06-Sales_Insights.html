@@ -1,0 +1,712 @@
+---
+layout: post
+title: "Sales Insights"
+subtitle: "A sales dashboard displaying several years of a company performance"
+skills: "[SQL] [Power BI]"
+#date:
+background: '/img/posts/sales/bg_sales_3.jpg'
+#link: 'https://github.com/ReneDCDSL/Twitter_Sentiment_Analysis'
+---
+
+<!DOCTYPE html>
+
+<html>
+
+<head>	
+
+	<style>
+		/* Style for SQL code */
+		.sql-code {
+			font-family: 'Courier New', monospace;
+			font-size: 16px;
+			background-color: #f4f4f4;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			margin-bottom: 10px;
+			overflow-x: auto;
+		}
+
+		/* Style for SQL results table */
+		.sql-results {
+			font-family: Arial, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+			font-size: 12px;
+		}
+
+		.sql-results th, .sql-results td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: left;
+			text-align: center;
+		}
+
+		.sql-results tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+
+		.sql-results th {
+			background-color: #bdbeca;
+			color: white;
+		}
+		/* Style for SQL keywords */
+		.sql-keyword {
+			color: #007acc; /* Color for SQL keywords */
+			font-weight: bold; /* Make keywords bold */
+		}
+
+		.medium{
+			background-color: silver;
+		}
+
+		.col_blue{
+			color: #007acc;
+		}
+		/*Button to go back at top of page*/
+		#myBtn {
+			display: none; /* Hidden by default */
+			position: fixed; /* Fixed/sticky position */
+			bottom: 30px; /* Place the button at the bottom of the page */
+			right: 50px; /* Place the button 30px from the right */
+			z-index: 99; /* Make sure it does not overlap */
+			border: none; /* Remove borders */
+			outline: none; /* Remove outline */
+			background-color: #007acc; /* Set a background color */
+			color: white; /* Text color */
+			cursor: pointer; /* Add a mouse pointer on hover */
+			padding: 7px; /* Some padding */
+			border-radius: 10px; /* Rounded corners */
+			font-size: 18px; /* Increase font size */
+			}
+		#myBtn:hover {
+			background-color: #555; /* Add a dark-grey background on hover */
+}
+	</style>
+
+</head>
+
+
+
+
+
+<body>
+	<!--Button to go back to top of page-->
+	<button onclick="topFunction()" id="myBtn" title="Go to top">Back top</button>
+
+	<!--Script for the button to go to top of page-->
+	<script>
+		// Get the button:
+		let mybutton = document.getElementById("myBtn");
+
+		// When the user scrolls down 20px from the top of the document, show the button
+		window.onscroll = function() {scrollFunction()};
+
+		function scrollFunction() {
+		if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+			mybutton.style.display = "block";
+		} else {
+			mybutton.style.display = "none";
+		}
+		}
+
+		// When the user clicks on the button, scroll to the top of the document
+		function topFunction() {
+		document.body.scrollTop = 0; // For Safari
+		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		}
+	</script>
+	<p>
+		This project is a sales insight on a mock data set from a hardware company. In this project, we try to analyze the sales revenue and profit evolution in various regions of India and for different customers over several years.
+	</p>
+	
+	<h1>Summary</h1>
+
+	<ul class="col_blue">
+		<li><a href="#C1" class="col_blue">Overview of the Data and Challenges</a></li>
+		<ul>
+			<li><a href="#dataset" class="col_blue">Dataset</a></li>
+			<li><a href="#business_needs" class="col_blue">Business Needs</a></li>
+			<li><a href="#eda" class="col_blue">Exploratory Data Analysis and Cleaning</a></li>
+			<ul>
+				<li><a href="#customers" class="col_blue">Customers</a></li>
+				<li><a href="#date" class="col_blue">Date</a></li>
+				<li><a href="#markets" class="col_blue">Markets</a></li>
+				<li><a href="#products" class="col_blue">Products</a></li>
+				<li><a href="#transactions" class="col_blue">Transactions</a></li>
+			</ul>
+		</ul>
+		<li><a href="#analysis" class="col_blue">Analysis</a></li>
+		<ul>
+			<li><a href="#kpi" class="col_blue">Key Performance Indicator</a></li>
+
+		</ul>
+	</ul>
+
+	<br>
+	<h1 id="C1">Overview of the Data and challenges</h1>
+
+	<br>
+	<h3 id="dataset">Dataset</h3>
+	<p>
+		We have a dataset from Haardaveyar, a copmany which supplies computer hardware and peripherals to many clients in India, such as Elictricalsara Stores, Leader or Nixon.
+
+		The dataset contains 5 tables: <strong>customers</strong>, <strong>date</strong>, <strong>markets</strong>, <strong>products</strong> and <strong>transactions</strong> <br>
+		Here is a small description of each of them:
+	</p>
+		<ul>
+			<li><strong>customers</strong>: 3 columns: customer_code (primary key) a unique identifier, customer_name the associated name, customer_type a categorical value being either 'Brick & Mortar' or 'E-Commerce'</li>
+			<li><strong>date</strong>: 5 columns in which there are several declinations of the date. The whole date and its 3 declinations (date, month, year) and a cy date (the 1st of each month) for business purposes.</li>
+			<li><strong>markets</strong>: contains the unique market identifier (primary key) with its associated name as markets_name and zone its location in the country</li>
+			<li><strong>products</strong>: product_code for each products identifier and a 2nd column product_type with a binary category 'Own Brand' or 'Distribution' </li>
+			<li><strong>transactions</strong>: 10 columns</li>
+		</ul>		
+
+	<p>
+		Product_code, customer_code and market_code referring to other tables, as the product market and customer for a given transaction. Order_date, sales_qty, sales_amount (revenue generated), currency, profit_margin_percentage which is the percentage of profit out of profit+cost, profit_margin the raw profit and cost_price
+	</p>
+
+	<h3 id="business_needs">Business needs</h3>
+	<p>
+		Our client is a head of the sales team. He would like to get a dashboard to have an overview of the current state of the company sales. He wants to know in which market they should be focusing on. Which one performs the best and the worst. If the company is growing, which markets are growing or shrinking the fastest. Any other insights are welcome.
+	</p>
+
+	<br>
+	<h3 id="eda">Exploratory Data Analysis and Cleaning</h3>
+
+	<p>
+		Let's take a closer look at our tables.
+	</p>
+
+	<h5 id="customers">Customers</h5>
+
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> * 
+<span class="sql-keyword">FROM</span> customers </pre>
+
+	<table class="sql-results">
+		<tr>
+		<td class='medium'>customer_code</td>
+		<td class='medium'>custmer_name</td>
+		<td class='medium'>customer_type</td>
+		</tr>
+		
+		<tr>
+		<td>Cus001</td>
+		<td>Surge Stores</td>
+		<td>Brick & Mortar</td>
+		</tr>
+		
+		<tr>
+		<td>Cus002</td>
+		<td>Nomad Stores</td>
+		<td>Brick & Mortar</td>
+		</tr>
+		
+		<tr><td></td><td>...</td><td></td></tr>
+
+		
+		<tr>
+		<td>Cus037</td>
+		<td>Propel</td>
+		<td>E-Commerce</td>
+		</tr>
+		
+		<tr>
+		<td>Cus038</td>
+		<td>Leader</td>
+		<td>E-Commerce</td>
+		</tr>
+	</table>
+
+	<br>
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> count(*) <span class="sql-keyword">AS</span>  Nb_customer
+<span class="sql-keyword">FROM</span> customers </pre>
+
+	<table class="sql-results">
+		<tr>
+		<td class='medium'>Nb_customer</td>
+
+		</tr>
+		
+		<tr>
+		<td>38</td>
+
+		</tr>
+	</table>
+
+	<br>
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> distinct(c.customer_type) <span class="sql-keyword">AS</span>  Distinct_customer_type
+<span class="sql-keyword">FROM</span> customers c </pre>
+
+	<table class="sql-results">
+	<tr>
+	<td class='medium'>Distinct_customer_type</td>
+
+	</tr>
+
+	<tr>
+		<td>Brick & Mortar</td>
+	</tr>
+	<tr>
+		<td>E-Commerce</td>
+	</tr>
+
+	</table>
+
+	<br>
+	<h5 id="date">Date</h5>
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> *
+<span class="sql-keyword">FROM</span> date </pre>
+
+	<table class="sql-results">
+		<tr>
+			<td class='medium'>date</td>
+			<td class='medium'>cy_date</td>
+			<td class='medium'>year</td>
+			<td class='medium'>month_name</td>
+			<td class='medium'>date_yy_mmm</td>
+		</tr>
+		<tr>
+			<td>2017-06-01	</td>
+			<td>2017-06-01</td>
+			<td>2017</td>
+			<td>June</td>
+			<td>17-Jun</td>
+		</tr>
+		<tr>
+			<td>2017-06-02</td>
+			<td>2017-06-01</td>
+			<td>2017</td>
+			<td>June</td>
+			<td>17-Jun</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td>...</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>2020-06-30</td>
+			<td>2020-06-01</td>
+			<td>2020</td>
+			<td>June</td>
+			<td>20-Jun</td>
+		</tr>
+	<table>
+
+	<br>
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> MIN(d.date) <span class="sql-keyword">AS</span>  First_date,
+	MAX(d.date) <span class="sql-keyword">AS</span>  Last_date
+<span class="sql-keyword">FROM</span> date d</pre>
+
+	<table class="sql-results">
+	<tr>
+		<td class='medium'>First_date</td>
+		<td class='medium'>Last_date</td>
+	</tr>
+
+	<tr>
+		<td>2017-06-01</td>
+		<td>2020-06-30</td>
+	</tr>
+	</table>
+
+	<br>
+	<h5 id="markets">Markets</h5>
+
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> *
+<span class="sql-keyword">FROM</span> markets </pre>
+
+	<table class="sql-results">
+	<tr>
+		<td class='medium'>markets_code</td>
+		<td class='medium'>markets_name</td>
+		<td class='medium'>zone</td>
+		</tr>
+		
+		<tr>
+		<td>Mark001</td>
+		<td>Chennai</td>
+		<td>South</td>
+		</tr>
+		
+		<tr>
+		<td>Mark002</td>
+		<td>Mumbai</td>
+		<td>Central</td>
+		</tr>
+		
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+		<td>Mark015</td>
+		<td>Bhubaneshwar</td>
+		<td>South</td>
+		</tr>
+		
+		<tr>
+		<td>Mark097</td>
+		<td>New York</td>
+		<td></td>
+		</tr>
+		
+		<tr>
+		<td>Mark999</td>
+		<td>Paris</td>
+		<td></td>
+		</tr>
+	</table>
+
+<p>
+	The last 2 rows of this table don't show any <em>zone</em>. Our dataset is supposed to showcase sales which occured in India, so there should not be neither Paris, nor New York.
+	We can check if there are any transactions that involved one of these cities. 
+</p>
+
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> *
+<span class="sql-keyword">FROM</span> transactions t
+<span class="sql-keyword">WHERE</span> t.market_code = 'Mark097' or t.market_code = 'Mark999'</pre>
+	
+	<table class="sql-results">
+		<tr>
+			<td class='medium'>product_code</td>
+			<td class='medium'>customer_code</td>
+			<td class='medium'>market_code</td>
+			<td class='medium'>order_date</td>
+			<td class='medium'>sales_qty</td>
+			<td class='medium'>sales_amount</td>
+			<td class='medium'>currency</td>
+			</tr>
+			
+			<tr>
+			<td ></td>
+			<td ></td>
+			<td ></td>
+			<td ></td>
+			<td ></td>
+			<td ></td>
+			<td ></td>
+			</tr>
+	</table>
+
+	<p>
+		There are no transactions involving any of these 2 cities. Therefore, we can safely remove them from our dataset. 
+	</p>
+
+	<h5 id="products">Products</h5>
+
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> *
+<span class="sql-keyword">FROM</span> products </pre>
+		
+	<table class="sql-results">
+		<tr>
+			<td class='medium'>product_code</td>
+			<td class='medium'>product_type</td>
+		</tr>
+	
+		<tr>
+			<td>Prod001</td>
+			<td>Own Brand</td>
+		</tr>
+		<tr>
+			<td>...</td>
+			<td>...</td>
+		</tr>
+		<tr>
+			<td>Prod279</td>
+			<td>Distribution</td>
+		</tr>
+	</table>
+
+	<br>
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> distinct(p.product_type) <span class="sql-keyword">AS</span> Distinct_product_type
+<span class="sql-keyword">FROM</span> products </pre>
+				
+	<table class="sql-results">
+		<tr>
+			<td class='medium'>Distinct_product_type</td>
+		</tr>
+
+		<tr>
+			<td>Own Brand</td>
+		</tr>
+		<tr>
+			<td>Distribution</td>
+		</tr>
+	</table>
+	<br>
+	<h5 id="transactions">Transactions</h5>
+
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> *
+<span class="sql-keyword">FROM</span> transactions </pre>
+	
+	<table class="sql-results">
+		<tr>
+			<td class='medium'>product_code</td>
+			<td class='medium'>customer_code</td>
+			<td class='medium'>market_code</td>
+			<td class='medium'>order_date</td>
+			<td class='medium'>sales_qty</td>
+			<td class='medium'>sales_amount</td>
+			<td class='medium'>currency</td>
+		</tr>
+
+		<tr>
+			<td>Prod001</td>
+			<td>Cus001</td>
+			<td>Mark001</td>
+			<td>2017-10-10</td>
+			<td>100</td>
+			<td>41241</td>
+			<td>INR</td>
+		</tr>
+
+		<tr>
+			<td>Prod001</td>
+			<td>Cus002</td>
+			<td>Mark002</td>
+			<td>2018-05-08</td>
+			<td>3</td>
+			<td>-1</td>
+			<td>INR</td>
+		</tr>
+
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>...</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+
+		<tr>
+			<td>Prod018</td>
+			<td>Cus022</td>
+			<td>Mark002</td>
+			<td>2019-02-18</td>
+			<td>3</td>
+			<td>6125</td>
+			<td>INR
+			</td>
+		</tr>
+			
+		<tr>
+			<td>Prod018</td>
+			<td>Cus025</td>
+			<td>Mark002</td>
+			<td>2019-02-18</td>
+			<td>8</td>
+			<td>17495</td>
+			<td>INR
+			</td>
+		</tr>
+	</table>
+
+	<br>
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> count(*) <span class="sql-keyword">AS</span> Nb_transactions
+<span class="sql-keyword">FROM</span> transactions </pre>
+
+	<table class="sql-results">
+		<tr>
+			<td class='medium'>Nb_transactions</td>
+		</tr>
+
+		<tr>
+			<td>150283</td>
+		</tr>
+	</table>
+
+<p>
+	Here we have more than 150000 transactions. As we can see in the <strong>transactions</strong> table, there's a row that contain a -1. This should not happen as one should
+	not be able to buy a produce of negative price.
+</p>
+
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> distinct(t.sales_amount) <span class="sql-keyword">AS</span> Distinct_sales_amount
+<span class="sql-keyword">FROM</span> transactions t
+<span class="sql-keyword">ORDER BY</span> Distinct_sales_amount <span class="sql-keyword">ASC</span></pre>
+
+<table class="sql-results">
+	<tr>
+		<td class='medium'>Distinct_sales_amount</td>
+	</tr>
+	<tr>
+		<td>-1</td>
+	</tr>
+	<tr>
+		<td>0</td>
+	</tr>
+	<tr>
+		<td>5</td>
+	</tr>
+	<tr>
+		<td>9</td>
+	</tr>
+	<tr>
+		<td>14</td>
+	</tr>
+	<tr>
+		<td>...</td>
+	</tr>
+</table>
+
+<p>
+	As we can see, there are amounts of 0 and -1. This should not happen, I will remove these transactions
+</p>
+
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> distinct(t.sales_qty) <span class="sql-keyword">AS</span> Distinct_sales_qty
+<span class="sql-keyword">FROM</span> transactions t
+<span class="sql-keyword">ORDER BY</span> Distinct_sales_qty <span class="sql-keyword">ASC</span></pre>
+	
+	<table class="sql-results">
+		<tr>
+			<td class='medium'>Distinct_sales_amount</td>
+		</tr>
+		<tr>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>2</td>
+		</tr>
+		<tr>
+			<td>3</td>
+		</tr>
+
+		<tr>
+			<td>...</td>
+		</tr>
+	</table>
+
+	<p>
+		The issue does not arise for sales quantity.
+	</p>
+
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> * 
+<span class="sql-keyword">FROM</span> transactions t
+<span class="sql-keyword">WHERE</span> t.sales_amount = 0 <span class="sql-keyword">OR</span> t.sales_amount = -1
+<span class="sql-keyword">ORDER BY</span> t.sales_amount <span class="sql-keyword">ASC</span></pre>
+
+	<table class="sql-results">
+		<tr>
+			<td class='medium'>product_code</td>
+			<td class='medium'>customer_code</td>
+			<td class='medium'>market_code</td>
+			<td class='medium'>order_date</td>
+			<td class='medium'>sales_qty</td>
+			<td class='medium'>sales_amount</td>
+			<td class='medium'>currency</td>
+		</tr>
+		<tr>
+			<td>Prod001</td>
+			<td>Cus002</td>
+			<td>Mark002</td>
+			<td>2018-05-08</td>
+			<td>3</td>
+			<td>-1</td>
+			<td>INR</td>
+		</tr>
+		<tr>
+			<td>Prod001</td>
+			<td>Cus002</td>
+			<td>Mark002</td>
+			<td>2018-05-08</td>
+			<td>3</td>
+			<td>-1</td>
+			<td>INR
+		</td>
+		</tr>
+		<tr>
+			<td>Prod010</td>
+			<td>Cus015</td>
+			<td>Mark006</td>
+			<td>2018-05-26</td>
+			<td>1</td>
+			<td>0</td>
+			<td>INR</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>...</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Prod265</td>
+			<td>Cus029</td>
+			<td>Mark011</td>
+			<td>2018-12-11</td>
+			<td>1</td>
+			<td>0</td>
+			<td>INR
+			</td>
+		</tr>
+	</table>
+
+	<p>
+		There are 2 transactions of value -1. It is actually a duplicate of the same transaction. The remaining transactions with value 0 could either be some kind of mistake from 
+		an employee, a gift, or any kind of error in registering the transaction. As we don't have more information on this, I will remove them all. 
+		Side note, I have a second dataset that have 2 added columns with the profit and cost of the transactions. In this second dataset, the transactions with 0 and -1 values
+		have been removed. As we don't have any cost for the transactions with <em>sales_amount</em> equal to 0, I will remove them as well.
+	</p>
+
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> count(*) <span class="sql-keyword">AS</span> Nb_outliers
+<span class="sql-keyword">FROM</span> transactions t
+<span class="sql-keyword">WHERE</span> t.sales_amount = 0 <span class="sql-keyword">OR</span> t.sales_amount = -1</pre>
+
+	<table class="sql-results">
+		<tr>
+			<td class='medium'>Nb_outliers</td>
+		</tr>
+		<tr>
+			<td>1611</td>
+		</tr>
+	</table>
+
+	<br>
+	<h1 id="analysis">Analysis</h1>
+
+	<br>
+	<h3 id="kpi">Key Performance Indicator</h3>
+
+	<p>
+		To satisfy our customer needs, it would be great to have measures that efficiently express the evolution of the different markets and products sales.
+		To do so, we can create 3 performance indicators: the Revenue, the Profit Margin Percentage, and the Percentage Profit Margin.
+	</p>
+
+	<h5 id="revenue">Revenue</h5>
+
+	<p>
+		The Revenue consists of the raw total income, which is the sum of the <em>sales_amount</em>. With this variable, we can observe the size and importance of different markets,
+		customers or products over different time frames.
+	</p>
+	<p>
+		Here is the DAX formula to create the variable in Power BI:
+		<br>
+		Revenue&nbsp;=<br><span class="Keyword" style="color:#035aca">SUM</span><span class="Parenthesis" style="color:#808080">&nbsp;(</span>&nbsp;'sales&nbsp;transactions'[sales_amount]&nbsp;<span class="Parenthesis" style="color:#808080">)</span><br>
+	</p>
+
+</body>
+

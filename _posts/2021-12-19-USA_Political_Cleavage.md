@@ -3,9 +3,80 @@ layout: post
 title: "Evolution of the Political Cleavage in the USA"
 subtitle: "An analysis over a very large set of politicians quotes "
 #date:
+skills: "[NLP] [ML] [Regression] [Sentiment Analysis]"
 background: '/img/posts/USA_Political_Cleavage/dem_vs_repu_1.jpg'
 link: 'https://github.com/ReneDCDSL/ada-2021-project-apa'
 ---
+<style>
+  /* Style for tables */
+  table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+ }
+
+  table th,
+  table td {
+      padding: 8px 12px;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+  }
+  /*background color for columns and rows' names */
+  table th {
+      background-color: #f0f0f0;
+  }
+
+  /* Style for code blocks */
+  pre {
+      background-color: #f4f4f4;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      line-height: 1.4;
+      font-size: 14px;
+      border-radius: 4px;
+  }
+
+  pre code {
+      display: block;
+      padding: 0;
+      margin: 0;
+      font-family: Monaco, monospace;
+  }
+
+  /* Style for inline code */
+  code {
+      background-color: #f4f4f4;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-family: Monaco, monospace;
+      font-size: 14px;
+  }
+
+  /* Style for headers */
+  h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+  }
+
+  /* Style for lists */
+  ul, ol {
+      margin-left: 20px;
+      margin-bottom: 20px;
+  }
+
+  /* Style for links */
+  a {
+      text-decoration: none;
+  }
+
+  a:hover {
+      text-decoration: underline;
+  }
+</style>
 
 Donald Trumps usage of Twitter especially following his election in 2016 was only one illustration of the Left-Right political cleavage in the United States of America. The political cleavage can be defined as the cultural and ideological "gap" that divides groups of differing political interest. Leveraging the [Quotebank dataset](https://zenodo.org/record/4277311), a dataset of quotes extracted from news articles, we propose to measure the evolution of this cleavage across time, and especially focus on how major elections i.e. the presidential election or midterms affect the cleavage short-term between January 2015 and April 2020. We're expecting this cleavage to increase, specially around events such as the presidential election or some specific events like the outbreak of the corona epidemic (2020), [major mass shootings](https://en.wikipedia.org/w/index.php?title=List_of_mass_shootings_in_the_United_States&oldid=1054289389), the first impeachment of Trump (2019), or the riot in Charlottesville (2017). We are not looking at events from the later half of 2020, and hence, the January 6th riot (2021), Joe Bidens election (2020), and him subsequently taking office (2021) are omitted.
 

@@ -9,7 +9,10 @@ background: '/img/bg_note_5.jpg'
 <article class="post-preview">
   <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
     <h2 class="post-title">{{ post.title }}</h2>
-    {% if post.subtitle %}
+    {% if post.subtitle and post.skills %}
+    <h3 class="post-skills">{{ post.skills }}</h3>
+    <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+    {% else if post.subtitle %}
     <h3 class="post-subtitle">{{ post.subtitle }}</h3>
     {% else %}
     <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
