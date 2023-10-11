@@ -141,6 +141,7 @@ background: '/img/posts/sales/bg_sales_3.jpg'
 			<li><a href="#kpi" class="col_blue">Key Performance Indicator</a></li>
 			<li><a href="#dashboard" class="col_blue">Dashboard</a></li>
 			<li><a href="#BI" class="col_blue">Business Insights</a></li>
+			<li><a href="#final" class="col_blue">Final Remarks</a></li>
 		</ul>
 	</ul>
 
@@ -150,33 +151,32 @@ background: '/img/posts/sales/bg_sales_3.jpg'
 	<br>
 	<h3 id="dataset">Dataset</h3>
 	<p>
-		We have a dataset from Haardaveyar, a copmany which supplies computer hardware and peripherals to many clients in India, such as Elictricalsara Stores, Leader or Nixon.
+		We have a dataset from Haardaveyar, a copmany which supplies computer hardware and peripherals to many clients in India.
 
 		The dataset contains 5 tables: <strong>customers</strong>, <strong>date</strong>, <strong>markets</strong>, <strong>products</strong> and <strong>transactions</strong> <br>
 		Here is a small description of each of them:
 	</p>
 		<ul>
-			<li><strong>customers</strong>: 3 columns: customer_code (primary key) a unique identifier, customer_name the associated name, customer_type a categorical value being either 'Brick & Mortar' or 'E-Commerce'</li>
-			<li><strong>date</strong>: 5 columns in which there are several declinations of the date. The whole date and its 3 declinations (date, month, year) and a cy date (the 1st of each month) for business purposes.</li>
-			<li><strong>markets</strong>: contains the unique market identifier (primary key) with its associated name as markets_name and zone its location in the country</li>
-			<li><strong>products</strong>: product_code for each products identifier and a 2nd column product_type with a binary category 'Own Brand' or 'Distribution' </li>
-			<li><strong>transactions</strong>: 10 columns</li>
+			<li><strong>customers</strong>: it contains the identifier of the customers, their names, and a categorical value being either 'Brick & Mortar' or 'E-Commerce'</li>
+			<li><strong>date</strong>: it contains several declinations of the date. The whole date and its 3 granularity (date, month, year), and a cy date column representing 
+				the 1st of each month for business purposes.</li>
+			<li><strong>markets</strong>: it contains the unique market identifiers with their associated name and a zone column, the location in the country</li>
+			<li><strong>products</strong>: it contains the identifiers for each products. For each of them there is a category 'Own Brand' or 'Distribution' associated</li>
+			<li><strong>transactions</strong>: 10 columns that recap the whole information of each transaction, from the customer, market and product IDs, to the sales amount, 
+				profit and cost</li>
 		</ul>		
-
-	<p>
-		Product_code, customer_code and market_code referring to other tables, as the product market and customer for a given transaction. Order_date, sales_qty, sales_amount (revenue generated), currency, profit_margin_percentage which is the percentage of profit out of profit+cost, profit_margin the raw profit and cost_price
-	</p>
 
 	<h3 id="business_needs">Business needs</h3>
 	<p>
-		Our client is a head of the sales team. He would like to get a dashboard to have an overview of the current state of the company sales. He wants to know in which market they should be focusing on. Which one performs the best and the worst. If the company is growing, which markets are growing or shrinking the fastest. Any other insights are welcome.
+		Our client is a head of the sales team. He would like to get a dashboard to have an overview of the current state of the company sales. He wants to know in which 
+		market they should be invest on. Which products sell the most. Which products profits the company the most. Which customers should get our attention.
 	</p>
 
 	<br>
 	<h3 id="eda">Exploratory Data Analysis and Cleaning</h3>
 
 	<p>
-		Let's take a closer look at our tables.
+		First, let's take a closer look at our tables.
 	</p>
 
 	<h5 id="customers">Customers</h5>
@@ -206,7 +206,6 @@ background: '/img/posts/sales/bg_sales_3.jpg'
 		
 		<tr><td></td><td>...</td><td></td></tr>
 
-		
 		<tr>
 		<td>Cus037</td>
 		<td>Propel</td>
@@ -222,42 +221,30 @@ background: '/img/posts/sales/bg_sales_3.jpg'
 
 	<br>
 	<pre class="sql-code">
-<span class="sql-keyword">SELECT</span> count(*) <span class="sql-keyword">AS</span>  Nb_customer
-<span class="sql-keyword">FROM</span> customers </pre>
+<span class="sql-keyword">SELECT</span> c.customer_type <span class="sql-keyword">AS</span> Customer_type,
+	count(c.customer_type) <span class="sql-keyword">AS</span> Nb_customer
+<span class="sql-keyword">FROM</span> customers c
+<span class="sql-keyword">GROUP BY</span> c.customer_type </pre>
 
 	<table class="sql-results">
 		<tr>
-		<td class='medium'>Nb_customer</td>
-
+			<td class='medium'>Customer_type</td>
+			<td class='medium'>Nb_customer</td>
 		</tr>
-		
 		<tr>
-		<td>38</td>
-
+			<td>Brick & Mortar</td>
+			<td>19</td>
+		</tr>
+		<tr>
+			<td>E-commerce</td>
+			<td>19</td>
 		</tr>
 	</table>
 
-	<br>
-	<pre class="sql-code">
-<span class="sql-keyword">SELECT</span> distinct(c.customer_type) <span class="sql-keyword">AS</span>  Distinct_customer_type
-<span class="sql-keyword">FROM</span> customers c </pre>
-
-	<table class="sql-results">
-	<tr>
-	<td class='medium'>Distinct_customer_type</td>
-
-	</tr>
-
-	<tr>
-		<td>Brick & Mortar</td>
-	</tr>
-	<tr>
-		<td>E-Commerce</td>
-	</tr>
-
-	</table>
-
-	<br>
+	<p>
+		There are 38 customers, out of which half sell through internet and the other hald in local stores.
+	</p>
+	
 	<h5 id="date">Date</h5>
 	<pre class="sql-code">
 <span class="sql-keyword">SELECT</span> *
@@ -319,7 +306,10 @@ background: '/img/posts/sales/bg_sales_3.jpg'
 	</tr>
 	</table>
 
-	<br>
+	<p>
+		Our dataset contains 3 years of transactions, made between June 2017 and June 2020.
+	</p>
+
 	<h5 id="markets">Markets</h5>
 
 	<pre class="sql-code">
@@ -370,7 +360,7 @@ background: '/img/posts/sales/bg_sales_3.jpg'
 	</table>
 
 <p>
-	The last 2 rows of this table don't show any <em>zone</em>. Our dataset is supposed to showcase sales which occured in India, so there should not be neither Paris, nor New York.
+	The last 2 rows of this table don't show any <em>zone</em>. Our dataset is supposed to showcase sales which occured in India, so there should be neither Paris, nor New York.
 	We can check if there are any transactions that involved one of these cities. 
 </p>
 
@@ -405,6 +395,35 @@ background: '/img/posts/sales/bg_sales_3.jpg'
 		There are no transactions involving any of these 2 cities. Therefore, we can safely remove them from our dataset. 
 	</p>
 
+		<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> m.zone <span class="sql-keyword">AS</span> Zone,
+	count(m.zone) <span class="sql-keyword">AS</span> Zone_count,
+<span class="sql-keyword">FROM</span> markets m 
+<span class="sql-keyword">FROM</span> Zone_count  <span class="sql-keyword">DESC</span></pre>
+		
+	<table class="sql-results">
+		<tr>
+			<td class='medium'>Zone</td>
+			<td class='medium'>Zone_count</td>
+		</tr>
+		<tr>
+			<td>North</td>
+			<td>6</td>
+		</tr>
+		<tr>
+			<td>South</td>
+			<td>5</td>
+		</tr>
+		<tr>
+			<td>Central</td>
+			<td>4</td>
+		</tr>
+	</table>
+
+	<p>
+		There are 15 market regions devided in 3 zones, with markets located mostly in North, then South then in the central area of India.
+	</p>
+
 	<h5 id="products">Products</h5>
 
 	<pre class="sql-code">
@@ -433,22 +452,30 @@ background: '/img/posts/sales/bg_sales_3.jpg'
 
 	<br>
 	<pre class="sql-code">
-<span class="sql-keyword">SELECT</span> distinct(p.product_type) <span class="sql-keyword">AS</span> Distinct_product_type
-<span class="sql-keyword">FROM</span> products </pre>
+<span class="sql-keyword">SELECT</span> p.product_type <span class="sql-keyword">AS</span> Product_type,
+	count(p.product_type) <span class="sql-keyword">AS</span> Count_product_type
+<span class="sql-keyword">FROM</span> products p
+<span class="sql-keyword">GROUP BY</span> Product_type </pre>
 				
 	<table class="sql-results">
 		<tr>
-			<td class='medium'>Distinct_product_type</td>
+			<td class='medium'>Product_type</td>
+			<td class='medium'>Count_product_type</td>
 		</tr>
-
 		<tr>
 			<td>Own Brand</td>
+			<td>191</td>
 		</tr>
 		<tr>
 			<td>Distribution</td>
+			<td>88</td>
 		</tr>
 	</table>
-	<br>
+
+	<p>
+		There are 279 products, out of which about 2/3 are of Own Brand type, and the remaing 1/3 are Distribution products. 
+	</p>
+
 	<h5 id="transactions">Transactions</h5>
 
 	<pre class="sql-code">
@@ -668,8 +695,6 @@ background: '/img/posts/sales/bg_sales_3.jpg'
 	<p>
 		There are 2 transactions of value -1. It is actually a duplicate of the same transaction. The remaining transactions with value 0 could either be some kind of mistake from 
 		an employee, a gift, or any kind of error in registering the transaction. As we don't have more information on this, I will remove them all. 
-		Side note, I have a second dataset that have 2 added columns with the profit and cost of the transactions. In this second dataset, the transactions with 0 and -1 values
-		have been removed. As we don't have any cost for the transactions with <em>sales_amount</em> equal to 0, I will remove them as well.
 	</p>
 
 	<pre class="sql-code">
@@ -686,7 +711,77 @@ background: '/img/posts/sales/bg_sales_3.jpg'
 		</tr>
 	</table>
 
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> t.currency <span class="sql-keyword">AS</span> Currency,
+	count(t.currency) <span class="sql-keyword">AS</span> Count_currency
+<span class="sql-keyword">FROM</span> transactions t
+<span class="sql-keyword">GROUP BY</span> Currency </pre>
+				
+	<table class="sql-results">
+		<tr>
+			<td class='medium'>Currency</td>
+			<td class='medium'>Count_currency</td>
+		</tr>
+		<tr>
+			<td>INR</td>
+			<td>148393</td>
+		</tr>
+		<tr>
+			<td>USD</td>
+			<td>2</td>
+		</tr>
+	</table>
+
 	<br>
+	<pre class="sql-code">
+<span class="sql-keyword">SELECT</span> *
+<span class="sql-keyword">FROM</span> transactions t
+<span class="sql-keyword">WHERE</span> t.currency = 'USD'</pre>
+
+	<table class="sql-results" style="width: max-content;">
+		<tr>
+			<td class='medium'>product_code</td>
+			<td class='medium'>customer_code</td>
+			<td class='medium'>market_code</td>
+			<td class='medium'>order_date</td>
+			<td class='medium'>sales_qty</td>
+			<td class='medium'>sales_amount</td>
+			<td class='medium'>currency</td>
+			<td class='medium'>profit_margin_percentage</td>
+			<td class='medium'>profit_margin</td>
+			<td class='medium'>cost_price</td>
+		</tr>
+		<tr>
+			<td>Prod003</td>
+			<td>Cus005</td>
+			<td>Mark004</td>
+			<td>2017-11-20</td>
+			<td>59</td>
+			<td>500</td>
+			<td>USD</td>
+			<td>0.31</td>
+			<td>11625</td>
+			<td>25875</td>
+		</tr>
+		<tr>
+			<td>Prod003</td>
+			<td>Cus005</td>
+			<td>Mark004</td>
+			<td>2017-11-22</td>
+			<td>36</td>
+			<td>250</td>
+			<td>USD</td>
+			<td>0.17</td>
+			<td>3187.5</td>
+			<td>15562.5</td>
+		</tr>
+	</table>
+
+	<p>
+		In this case, since there are only 2 transactions that have been done in USD, we can either treat it as an outlier, compared to the huge amount of transactions made in Indian 
+		Rupees, and remove it. Or we can just change the currency at the transaction date's exchange rate and keep the record. In this case, I kept the record.
+	</p>
+
 	<h1 id="analysis">Analysis</h1>
 
 	<br>
@@ -768,29 +863,80 @@ Profit&nbsp;Margin&nbsp;Contribution&nbsp;%&nbsp;=<br><span class="Keyword" styl
 
 	<p>
 		Looking at various variation of the dashboard, we can get really interesting insights. <br>
-		On the first figure, we can see the importance of the Electricalsara Stores as the main source of Revenue and Profit. However, we can see on the third bar chart that the profit 
-		margin percentage is quite low, meaning that the hardware company generates overall a good amount of money over a huge number of transactions with low profits. <br>
-		The second figure shows that the next 5 highest total revenue customers have various proportion of contribution towards global profit. We can see that Nixon and Electricalslytical 
-		are 2 very great customers with which our company makes a significant amount of transactions with fairly high profit. <br>
+		On the first figure, we can see the importance of the Electricalsara Stores as the main source of Revenue and Profit of our company. However, we can see through the third bar 
+		chart that the average profit % is quite low, meaning that the hardware company generates overall a good amount of money over a huge number of transactions with low profits. <br>
+		The second figure shows that the next 5 highest revenue contributors' customers have various proportion of contribution towards global profit. We can see that Nixon and 
+		Electricalslytical are 2 very great customers with which our company makes a significant amount of transactions with fairly high profit. <br>
 		The last of the 3 figures show which markets make the most profit out of each transactions. Since this is a relative number, top customers in this category present various 
 		impacts in revenue. Again, Nixon is present in all top parts of the charts. Leader and Electricalsocity are also customers that present high numbers in revenue and profit.
 	</p>
 
 	<h3 id="BI">Business Insights</h3>
 	<p>
-		Many other insights can be made by looking at other variations of this dashboard. Since I cannot have it interactive here, I have printed some over <a href="https://github.com/ReneDCDSL/_PERSONAL-PROJECTS">here</a> <br>
-		Here are some high-level insights I would give my client with the appropriate dashboard illustrations:
+		Many other insights can be made by looking at other variations of this dashboard. Since I cannot have it interactive here, I have printed some records over <a href="https://github.com/ReneDCDSL/_PERSONAL-PROJECTS">here</a> <br>
+		Here are some high-level insights I would give my client with the appropriate dashboard illustrations: 
+		Note: to showcase the performance, I will write in braces the KPI: <strong>[% Revenue contribution/% Profit contribution/% Avg Profit per transaction]</strong>
+	<h6>Overall</h6>
 		<ul>
-			<li>Sales through E-commerce have decreased a bit since early 2018. However, the most profitable customers overall (2017-2020) are mostly doing business through e-commerce. 
-				Developing this type of sell may be interesting. As it is highly profitable, there are some leverage to be taken advantage of (investing more in ads, promotions..)
-			</li>
+			
+			<br><h6>Main customer: Electricalsara Stores</h6>
 			<li>
-				Leader, Control and Logic stores presented all high profits and revenue in 2019. It could be interesting to award them special benefits to maintain these interactions.
+				From 2017 to 2019, <strong>Electricalsara Stores</strong> have been the main contribution to the overall profit of the company, with more than a 3rd of the overall 
+				profit contribution each year. This is your main client with which the company is the most profitable and generates the most revenue. A small dip in mid 2020 is to 
+				be investigated.
 			</li>
+			<br><h6>Markets</h6>
 			<li>
-
+				<strong>New Delhi, Mumbai, Ahmedabad, Bhopal and Nagpur</strong> have always been the same top 5 markets in both revenue and profit contribution (5%-50%). These are 
+				the strongest markets. <br>
+				<strong>Kochi, Chennai, Patna and Surat</strong> are the main follow-up with relative profit contribution (0.5%-3%) and relatively high average profit per transaction (1.7%-4.9%). 
+				These markets have been showing great performance in early 2020, except for Surat, with very high profits both in contribution and transaction. This is to 
+				be encouraged.
+			</li>
+			<br><h6>E-commerce status</h6>
+			<li>
+				Apart from Electricalsara Stores which are full Brick & Mortar, customers relying on E-commerce have been giving our company the most profitable transactions. 
+				These highly profitable transactions gives the company leverage to be taken advantage of (investing in more ads, promotions..)
 			</li>
 		</ul>
+	<br><h6>2019: previous year performance</h6>
+	<ul>
+		<br><h6>Customers</h6>
+		<li>
+			<h6>Leader, Control, Logic Stores</h6>
+			<strong>Leader [1.9/6.7/11.1], Control [3/4.5/4.7] and Logic Stores [1.7/3.4/6.1]</strong> all have high average profit per transaction 
+			(> 4.5% each) in 2019. Each of these stores managed to have a transaction average profit of over 4.5%. These customers performed well last year, this performance should be 
+			encouraged.
+		</li>
+	</ul>
+	<br><h6>2020: current trend</h6>
+		<ul>
+			<br><h6>Tier A products: 083, 070, 206, 308</h6>
+			<li>
+				In the beginning of 2020, products <strong>083 [0.6/9.8/25.7], 070 [0.5/7.6/22.7], 206 [0.5/7.7/21] and 308 [1.5/14.8/14.2]</strong> have been the star products. 
+				With a combined profit contribution of 39.9% despite their 3.1% cumulated revenue, and individual average profit of > 14% per transactions, these products have 
+				been selling very well.
+			</li>
+			<br><h6>Tier B products: 324, 159, 313, 332, 201, 318</h6>
+			<li>
+				These products have had a higher share of the revenue (0.7%-1.2%) in the beginning of 2020, but with a lesser profit contribution (4.9%-6.4%) and profit per 
+				transaction (6%-12.7%), except for product <strong>324 [3.5/7.9/3.3]</strong> which has high profit and revenue contribution rates but with a lower profit per 
+				transaction of 3.3%. These products have had very great performance in this first half of the year, I put them in this second, yet very good, tier as their 
+				relatively lower profit rates gives us less leverage to promote them.
+			</li>
+			<br><h6>Market: Hyderabad</h6>
+			<li>
+				The <strong>Hyderabad</strong> market has had a rough start in 2017 <strong>[1/-1/-3.1]</strong>, keeping low profile in 2018 <strong>[0.6/0.4/1.5]</strong>, 
+				before deeping down again in 2019 <strong>[0.8/-0.4/-1.5]</strong> but have rosen back up in early 2020 <strong>[0.8/3.9/6.7]</strong>, with a record 
+				0.55M in revenue in March. A focus on this case is advised.
+			</li>
+		</ul>
+	</p>
+
+	<h3 id="final">Final remarks</h3>
+	<p>
+		This dashboard is a simple yet informative version of the company sales state. It displays revenue and profit metrics, sales trend and the top markets, customers or 
+		products at any given time. There are still many other metrics, combinations of tables or charts that could be added. <br>
 	</p>
 
 
