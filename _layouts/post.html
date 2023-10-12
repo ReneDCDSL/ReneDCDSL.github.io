@@ -14,12 +14,12 @@ layout: default
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="post-heading">
             {% if page.link %}
-            <h1><a href={{page.link}}>{{page.title }}</a></h1>
+            <h1><a href={{page.link}} style="text-decoration: none; color: white; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">{{page.title }}</a></h1>
             {% else %}
             <h1>{{ page.title }}</h1>
             {% endif %}
             {% if page.subtitle and page.skills %}
-            <h5 class="skills-heading">{{ page.skills }}</h5>
+            <h5 class="skills-heading" style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">{{ page.skills }}</h5>
             <h2 class="subheading">{{ page.subtitle }}</h2>
             {% else if page.subtitle %}
             <h2 class="subheading">{{ page.subtitle }}</h2>
