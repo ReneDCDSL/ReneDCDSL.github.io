@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Office Character Classifier"
-subtitle: "A quest to find which character said a given sentence"
+subtitle: "A quest to associate sentences to characters"
 #date:
 skills: "[NLP] [ML] [Transformers]"
 background: '/img/posts/The_Office_classification/bg_michael_3.jpg'
