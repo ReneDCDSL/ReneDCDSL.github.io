@@ -153,7 +153,7 @@ link: 'https://github.com/ReneDCDSL//Sales_Insights/'
 	<br>
 	<h3 id="dataset">Dataset</h3>
 	<p>
-		We have a dataset from Haardaveyar, a copmany which supplies computer hardware and peripherals to many clients in India.
+		We have a dataset from Haardaveyar, a company which supplies computer hardware and peripherals to many clients in India.
 
 		The dataset contains 5 tables: <strong>customers</strong>, <strong>date</strong>, <strong>markets</strong>, <strong>products</strong> and <strong>transactions</strong> <br>
 		Here is a small description of each of them:
@@ -170,8 +170,8 @@ link: 'https://github.com/ReneDCDSL//Sales_Insights/'
 
 	<h3 id="business_needs">Business needs</h3>
 	<p>
-		Our client is a head of the sales team. He would like to get a dashboard to have an overview of the current state of the company sales. He wants to know in which 
-		market they should be invest on. Which products sell the most. Which products profits the company the most. Which customers should get our attention.
+		Our client is the head of the sales team. He would like to get a dashboard to have an overview of the current state of the company sales. He wants to know in which 
+		market they should be investing in. Which products sell the most. Which products profits the company the most. Which customers should get our attention.
 	</p>
 
 	<br>
@@ -244,7 +244,7 @@ link: 'https://github.com/ReneDCDSL//Sales_Insights/'
 	</table>
 
 	<p>
-		There are 38 customers, out of which half sell through internet and the other hald in local stores.
+		There are 38 customers, out of which half sell through internet and the other half in local stores.
 	</p>
 	
 	<h5 id="date">Date</h5>
@@ -362,7 +362,7 @@ link: 'https://github.com/ReneDCDSL//Sales_Insights/'
 	</table>
 
 <p>
-	The last 2 rows of this table don't show any <em>zone</em>. Our dataset is supposed to showcase sales which occured in India, so there should be neither Paris, nor New York.
+	The last 2 rows of this table does not show any <em>zone</em>. Our dataset is supposed to showcase sales which occured in India, so there should be neither Paris, nor New York.
 	We can check if there are any transactions that involved one of these cities. 
 </p>
 
@@ -394,7 +394,7 @@ link: 'https://github.com/ReneDCDSL//Sales_Insights/'
 	</table>
 
 	<p>
-		There are no transactions involving any of these 2 cities. Therefore, we can safely remove them from our dataset. 
+		There is no transaction involving any of these 2 cities. Therefore, we can safely remove them from our dataset. 
 	</p>
 
 		<pre class="sql-code">
@@ -423,7 +423,7 @@ link: 'https://github.com/ReneDCDSL//Sales_Insights/'
 	</table>
 
 	<p>
-		There are 15 market regions devided in 3 zones, with markets located mostly in North, then South then in the central area of India.
+		There are 15 market regions divided in 3 zones, with markets located mostly in North, then South then in the central area of India.
 	</p>
 
 	<h5 id="products">Products</h5>
@@ -475,7 +475,7 @@ link: 'https://github.com/ReneDCDSL//Sales_Insights/'
 	</table>
 
 	<p>
-		There are 279 products, out of which about 2/3 are of Own Brand type, and the remaing 1/3 are Distribution products. 
+		There are 279 products, out of which about 2/3 are of Own Brand type, and the remaining 1/3 are Distribution products. 
 	</p>
 
 	<h5 id="transactions">Transactions</h5>
@@ -564,7 +564,7 @@ link: 'https://github.com/ReneDCDSL//Sales_Insights/'
 	</table>
 
 <p>
-	Here we have more than 150000 transactions. As we can see in the transactions table, there's a row that contain a -1. This should not happen as one should
+	Here we have more than 150000 transactions. As we can see in the transactions table, there is a row that contain a -1. This should not happen as one should
 	not be able to buy a produce of negative price.
 </p>
 
@@ -598,7 +598,7 @@ link: 'https://github.com/ReneDCDSL//Sales_Insights/'
 </table>
 
 <p>
-	As we can see, there are amounts of 0 and -1. This should not happen, I will remove these transactions
+	As we can see, there are amounts of 0 and -1. This should not happen, these transactions will be removed.
 </p>
 
 	<pre class="sql-code">
@@ -790,7 +790,7 @@ link: 'https://github.com/ReneDCDSL//Sales_Insights/'
 	<h3 id="kpi">Key Performance Indicator</h3>
 
 	<p>
-		To satisfy our customer needs, it would be great to have measures that efficiently express the evolution of the different markets and products sales.
+		To satisfy our customer' needs, it would be great to have measures that efficiently express the evolution of the different markets and products' sales.
 		To do so, we can create 3 performance indicators: the Revenue, the Profit Margin Percentage, and the Percentage Profit Margin.
 	</p>
 
@@ -820,7 +820,7 @@ Profit&nbsp;Margin&nbsp;%&nbsp;=<br><span class="Keyword" style="color:#035aca">
 
 	<h5 id="profit_margin_percentage">Profit Margin Contribution %</h5>
 	<p>
-		The Profit Margin Contribution % is the relative profit of a given market, producer or customer, accross all the others.
+		The Profit Margin Contribution % is the relative profit of a given market, producer, or customer, across all the others.
 	</p>
 	<p>
 		Here is the DAX formula to create the variable in Power BI:
@@ -842,10 +842,10 @@ Profit&nbsp;Margin&nbsp;Contribution&nbsp;%&nbsp;=<br><span class="Keyword" styl
 	  </figure>
 
 	<p>
-		From this first plot, we can see some overall statistics: the total revenue, profit and number of sales on the first line. The middle part of the dashboard present the revenue 
+		From this first plot, we can see some overall statistics: the total revenue, profit, and number of sales on the first line. The middle part of the dashboard present the revenue 
 		trend over the 4 years, with a pie chart presenting the amount of e-commerce vs local brick & mortar. Finally, the bar charts at the bottom show the contribution of each market 
 		in the dataset in revenue and profits. The latter can be changed to observe the contribution of the different customers and products as well. This can be very informative and 
-		suggestive in the markets, customers or products the company should be focusing on.
+		suggestive in the markets, customers, or products the company should be focusing on.
 	</p>
 
 	<figure>
@@ -855,7 +855,7 @@ Profit&nbsp;Margin&nbsp;Contribution&nbsp;%&nbsp;=<br><span class="Keyword" styl
 
 	<p>
 	This second figure shows the relative importance of different customers. We can see that Electricalsara Stores is one of the most important customer given the revenue and profit 
-	we generate from them. Looking at the top customers in each bar charts allows us to drive deeper insights. 
+	we generate from them. Looking at the top customers in each bar charts allows us to draw deeper insights. 
 	</p>
 
 	<figure>
@@ -868,9 +868,9 @@ Profit&nbsp;Margin&nbsp;Contribution&nbsp;%&nbsp;=<br><span class="Keyword" styl
 		On the first figure, we can see the importance of the Electricalsara Stores as the main source of Revenue and Profit of our company. However, we can see through the third bar 
 		chart that the average profit % is quite low, meaning that the hardware company generates overall a good amount of money over a huge number of transactions with low profits. <br>
 		The second figure shows that the next 5 highest revenue contributors' customers have various proportion of contribution towards global profit. We can see that Nixon and 
-		Electricalslytical are 2 very great customers with which our company makes a significant amount of transactions with fairly high profit. <br>
+		Electricalslytical are 2 very great customers with which our company makes a significant number of transactions with fairly high profits. <br>
 		The last of the 3 figures show which markets make the most profit out of each transactions. Since this is a relative number, top customers in this category present various 
-		impacts in revenue. Again, Nixon is present in all top parts of the charts. Leader and Electricalsocity are also customers that present high numbers in revenue and profit.
+		impacts on revenue. Again, Nixon is present in all top parts of the charts. Leader and Electricalsocity are also customers that present high numbers in revenue and profit.
 	</p>
 
 	<h3 id="BI">Business Insights</h3>
@@ -932,7 +932,7 @@ Profit&nbsp;Margin&nbsp;Contribution&nbsp;%&nbsp;=<br><span class="Keyword" styl
 			<br><h6>Market: Hyderabad</h6>
 			<li>
 				The <strong>Hyderabad</strong> market has had a rough start in 2017 <strong>[1/-1/-3.1]</strong>, keeping low profile in 2018 <strong>[0.6/0.4/1.5]</strong>, 
-				before deeping down again in 2019 <strong>[0.8/-0.4/-1.5]</strong> but have rosen back up in early 2020 <strong>[0.8/3.9/6.7]</strong>, with a record 
+				before deeping down again in 2019 <strong>[0.8/-0.4/-1.5]</strong> but have risen back up in early 2020 <strong>[0.8/3.9/6.7]</strong>, with a record 
 				0.55M in revenue in March. A focus on this case is advised.
 			</li>
 		</ul>
