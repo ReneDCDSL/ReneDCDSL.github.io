@@ -1,0 +1,143 @@
+---
+layout: post
+title: "Modelling the progression of migraine attacks: a bayesian hierarchical approach"
+subtitle: "Initial implementation of a powerful bayesian hierarchical model"
+skills: "[Big Data] [Baysesian Statistics] [Markov Model] [Bayesian Hierarchical Model]"
+#date:
+background: '/img/posts/migraine/bg_migraine.jpg'
+---
+
+<!DOCTYPE html>
+
+<html>
+
+<head>	
+
+	<style>
+		
+		/*Button to go back at top of page*/
+		#myBtn {
+			display: none; /* Hidden by default */
+			position: fixed; /* Fixed/sticky position */
+			bottom: 30px; /* Place the button at the bottom of the page */
+			right: 50px; /* Place the button 30px from the right */
+			z-index: 99; /* Make sure it does not overlap */
+			border: none; /* Remove borders */
+			outline: none; /* Remove outline */
+			background-color: #007acc; /* Set a background color */
+			color: white; /* Text color */
+			cursor: pointer; /* Add a mouse pointer on hover */
+			padding: 7px; /* Some padding */
+			border-radius: 10px; /* Rounded corners */
+			font-size: 18px; /* Increase font size */
+			}
+		#myBtn:hover {
+			background-color: #555; /* Add a dark-grey background on hover */
+}
+	</style>
+
+</head>
+
+
+
+
+
+<body>
+	<!--Button to go back to top of page-->
+	<button onclick="topFunction()" id="myBtn" title="Go to top">Back top</button>
+
+	<!--Script for the button to go to top of page-->
+	<script>
+		// Get the button:
+		let mybutton = document.getElementById("myBtn");
+
+		// When the user scrolls down 20px from the top of the document, show the button
+		window.onscroll = function() {scrollFunction()};
+
+		function scrollFunction() {
+		if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+			mybutton.style.display = "block";
+		} else {
+			mybutton.style.display = "none";
+		}
+		}
+
+		// When the user clicks on the button, scroll to the top of the document
+		function topFunction() {
+		document.body.scrollTop = 0; // For Safari
+		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		}
+	</script>
+
+	<p>
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-01.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px;">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-02.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-03.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-04.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-05.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-06.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-07.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-08.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-09.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-10.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-11.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-12.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-13.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-14.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-15.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-16.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-17.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-18.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-19.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-20.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-21.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-22.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-23.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-24.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-25.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-26.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-27.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-28.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-29.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-30.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-31.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-32.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-33.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-34.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-35.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-36.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-37.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-38.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-39.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-40.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-41.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-42.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-43.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-44.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-45.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-46.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-47.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-48.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-49.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-50.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-51.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+	<img src="/files/Master_Thesis/Master_Thesis_Rene_de_Champs-52.jpg"  style="border: 1px solid #555; width: 100%; margin-bottom: 10px">
+
+
+	</p>
+
+		
+		
+	
+		
+		
+			
+
+
+
+
+
+
+
+	</body>
+
