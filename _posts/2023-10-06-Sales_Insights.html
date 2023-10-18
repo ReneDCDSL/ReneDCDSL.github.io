@@ -170,15 +170,33 @@ link: 'https://github.com/ReneDCDSL//Sales_Insights/'
 
 	<h3 id="business_needs">Business needs</h3>
 	<p>
-		Our client is the head of the sales team. He would like to get a dashboard to have an overview of the current state of the company sales. He wants to know in which 
-		market they should be investing in. Which products sell the most. Which products profits the company the most. Which customers should get our attention.
+		Our client is the head of the sales team. He would like to get a dashboard to have an overview of the current state of his company's sales. He wants to know in which 
+		market/product/customer he should invest time and money.
 	</p>
 
-	<br>
+	<h5>Interpretation and research questions</h5>
+
+	<p>
+		From our understanding, the client wants a dashboard that can display the company's overall income while still being able to observe the performance of its market, customer and product 
+		at a unit level. The dashboard should include various graphs and resources on an aggregated level with some charts that shows individual contribution. <br>
+
+		In this context, investment rhymes with performance. Thus, the dashboard should be able to answer the following questions:
+		<ul>
+			<li>Which markets are the most profitable ?</li>
+			<li>Which markets have been the most stable source of income ?</li>
+			<li>Which markets have been performing well recently ?</li>
+			<li>Which markets have been performing bad recently ?</li>
+		</ul>
+		
+		The analysis will be conducted at a customer and product level as well, but first, let's take a look at our data.
+		
+	</p>
+
+
 	<h3 id="eda">Exploratory Data Analysis and Cleaning</h3>
 
 	<p>
-		First, let's take a closer look at our tables.
+		The head of sales provided us 5 tables, let's take a closer look at each of them.
 	</p>
 
 	<h5 id="customers">Customers</h5>
@@ -790,15 +808,16 @@ link: 'https://github.com/ReneDCDSL//Sales_Insights/'
 	<h3 id="kpi">Key Performance Indicator</h3>
 
 	<p>
-		To satisfy our customer' needs, it would be great to have measures that efficiently express the evolution of the different markets and products' sales.
-		To do so, we can create 3 performance indicators: the Revenue, the Profit Margin Percentage, and the Percentage Profit Margin.
+		To satisfy our customer's needs, we need measures that efficiently express the performance evolution of the different markets, customers and products sales.
+		To do so, we will create 3 performance indicators: the Revenue, the Profit Margin Percentage, and the Average Percentage of Profit. These indicator will help us establish which 
+		product, market or customer are the most profitable at an individual and overall scale. 
 	</p>
 
 	<h5 id="revenue">Revenue</h5>
 
 	<p>
-		The Revenue consists of the raw total income, which is the sum of the <em>sales_amount</em>. With this variable, we can observe the size and importance of different markets,
-		customers or products over different time frames.
+		The Revenue consists of the raw total income, which is the sum of the <em>sales_amount</em>. This variable is important as it illustrates the weight a market or customer represent 
+		for our client. It can also show which product are staples for the consumers and source of stability for our client.
 	</p>
 	<p>
 		Here is the DAX formula to create the variable in Power BI:
@@ -807,9 +826,11 @@ Revenue&nbsp;=<br><span class="Keyword" style="color:#035aca">SUM</span><span cl
 		</p>
 
 
-	<h5 id="profit_margin">Profit Margin %</h5>
+	<h5 id="profit_margin">Average Profit Margin %</h5>
 	<p>
-		The Profit Margin % is the percentage of profit among the total revenue.
+		The Average Profit Margin % is the percentage of profit among the total revenue on average. This indicator displays how profitable an item is. High profits transactions can arise from 
+		various factors that should be investigated (new product, few or no opponent on the market..). This metric is very valuable as profits are what makes the company run. 
+		Products and markets with high profits should be closely looked at, as a source of income and leverage for our client.
 	</p>
 	<p>
 		Here is the DAX formula to create the variable in Power BI:
@@ -820,7 +841,8 @@ Profit&nbsp;Margin&nbsp;%&nbsp;=<br><span class="Keyword" style="color:#035aca">
 
 	<h5 id="profit_margin_percentage">Profit Margin Contribution %</h5>
 	<p>
-		The Profit Margin Contribution % is the relative profit of a given market, producer, or customer, across all the others.
+		The Profit Margin Contribution % is the relative profit of a given market, producer, or customer, across all the others. As a representation of the share of profit accross all other 
+		terms, this metric exhibits which markets, products or customers are the most profitable to our client.
 	</p>
 	<p>
 		Here is the DAX formula to create the variable in Power BI:
@@ -842,10 +864,9 @@ Profit&nbsp;Margin&nbsp;Contribution&nbsp;%&nbsp;=<br><span class="Keyword" styl
 	  </figure>
 
 	<p>
-		From this first plot, we can see some overall statistics: the total revenue, profit, and number of sales on the first line. The middle part of the dashboard present the revenue 
-		trend over the 4 years, with a pie chart presenting the amount of e-commerce vs local brick & mortar. Finally, the bar charts at the bottom show the contribution of each market 
-		in the dataset in revenue and profits. The latter can be changed to observe the contribution of the different customers and products as well. This can be very informative and 
-		suggestive in the markets, customers, or products the company should be focusing on.
+		This first version of the dashboard showcases simple overall statistics: the total revenue, total profit, and total number of sales on the first line. The middle part of the board 
+		presents the revenue trend over the 4 years, with a pie chart illustrating the amount of e-commerce vs local brick & mortar sales. Finally, the bar charts at the bottom show the 
+		contribution of each market in the dataset through the revenue and profits KPIs. The bar charts can be changed to display the contribution at a customer and product level as well. 
 	</p>
 
 	<figure>
@@ -854,8 +875,8 @@ Profit&nbsp;Margin&nbsp;Contribution&nbsp;%&nbsp;=<br><span class="Keyword" styl
 	  </figure>
 
 	<p>
-	This second figure shows the relative importance of different customers. We can see that Electricalsara Stores is one of the most important customer given the revenue and profit 
-	we generate from them. Looking at the top customers in each bar charts allows us to draw deeper insights. 
+	This second figure shows the relative income of the customers in 2019. We can see that Electricalsara Stores is one of the most important customer given the revenue and profits 
+	our client generates from them. Looking at the top customers in each bar charts allows us to draw deeper insights. 
 	</p>
 
 	<figure>
@@ -864,85 +885,89 @@ Profit&nbsp;Margin&nbsp;Contribution&nbsp;%&nbsp;=<br><span class="Keyword" styl
 	</figure>
 
 	<p>
-		Looking at various variation of the dashboard, we can get really interesting insights. <br>
-		On the first figure, we can see the importance of the Electricalsara Stores as the main source of Revenue and Profit of our company. However, we can see through the third bar 
-		chart that the average profit % is quite low, meaning that the hardware company generates overall a good amount of money over a huge number of transactions with low profits. <br>
-		The second figure shows that the next 5 highest revenue contributors' customers have various proportion of contribution towards global profit. We can see that Nixon and 
-		Electricalslytical are 2 very great customers with which our company makes a significant number of transactions with fairly high profits. <br>
-		The last of the 3 figures show which markets make the most profit out of each transactions. Since this is a relative number, top customers in this category present various 
-		impacts on revenue. Again, Nixon is present in all top parts of the charts. Leader and Electricalsocity are also customers that present high numbers in revenue and profit.
+		Thanks to the various variations of the dashboard, we can get really interesting insights on our client's sales. <br>
+		On the first figure, we can see the importance of the Electricalsara Stores as the main source of Revenue and Profit of his company. Although, we can see through the third bar 
+		chart that the average profit % is quite low, meaning that the hardware company generates overall a good amount of money over a huge number of transactions with very low profits. <br>
+		The second figure shows that the following 5 customers who contribute to the revenue the highest have various shares of contribution towards global profit. We can see that Nixon and 
+		Electricalslytical are 2 very great customers with which their company makes a significant number of transactions with fairly high profits. <br>
+		The third figure on the right, shows which markets make the most profit out of each transactions. Since this is a relative number, top customers in this category present various 
+		impacts on revenue. Again, Nixon is present in all top parts of the charts. Leader and Electricalsocity are also customers that bring consequent revenue and profit.
 	</p>
 
 	<h3 id="BI">Business Insights</h3>
 
 	<p>
-		Many other insights can be made by looking at other variations of this dashboard. Since I cannot have it interactive here, I have printed some records over <a href="https://github.com/ReneDCDSL/Sales_Insights/tree/main/dashboards">here</a> <br>
 		Here are some high-level insights I would give my client with the appropriate dashboard illustrations: <br>
-		<i><b>Note:</b> to showcase the performance, I will add the individual KPI as such:<br> <strong>[% Revenue contribution/% Profit contribution/% Avg Profit per transaction]</strong></i>
+		<i><b>Note:</b> to showcase the performance, I added the individual KPI as such:<br> <strong>[% Revenue contribution/% Profit contribution/% Avg Profit per transaction]</strong></i>
 	
-		<h6>Overall</h6>
+		<h4>Overall</h4>
 		<ul>
-			<br><h6>Main customer: Electricalsara Stores</h6>
+			<br><h6>Main customer: Electricalsara Stores <a href="https://github.com/ReneDCDSL/Sales_Insights/tree/main/dashboards/overall/overall_electricalsara_main.pdf"><img src="/img/graph.jpg" style="width: 30px; height: 30px; display:inline-block;"></a></h6>
 			<li>
-				From 2017 to 2019, <strong>Electricalsara Stores</strong> have been the main contribution to the overall profit of the company, with more than a 3rd of the overall 
-				profit contribution each year. This is your main client with which the company is the most profitable and generates the most revenue. A small dip in mid 2020 is to 
-				be investigated.
+				From 2017 to 2019, <strong>Electricalsara Stores</strong> have been the main contributors to the overall profit of my client's company. Indeed, these stores have been contributing 
+				to more than a 3rd of the overall profit each year. This is their main client with which they are the most profitable and which generate them the most revenue. A small dip in 
+				mid 2020 could be investigated.
 			</li>
-			<br><h6>Markets</h6>
+			
+			<br><h6>Markets <a href="https://github.com/ReneDCDSL/Sales_Insights/tree/main/dashboards/overall/overall_top5_markets.pdf"><img src="/img/graph.jpg" style="width: 30px; height: 30px; display:inline-block;"></a></h6>
 			<li>
-				<strong>New Delhi, Mumbai, Ahmedabad, Bhopal and Nagpur</strong> have always been the same top 5 markets in both revenue and profit contribution (5%-50%). These are 
+				<strong>New Delhi, Mumbai, Ahmedabad, Bhopal and Nagpur</strong> have always been the same top 5 markets in both revenue and overall profit contribution (5%-50%). These are 
 				the strongest markets. <br>
-				<strong>Kochi, Chennai, Patna and Surat</strong> are the main follow-up with relative profit contribution (0.5%-3%) and relatively high average profit per transaction (1.7%-4.9%). 
-				These markets have been showing great performance in early 2020, except for Surat, with very high profits both in contribution and transaction. This is to 
-				be encouraged.
+				<a href="https://github.com/ReneDCDSL/Sales_Insights/blob/main/dashboards/overall/overall_tier_B_markets.pdf"><strong>Kochi, Chennai, Patna and Surat</strong></a> are the main follow-up 
+				with non-negligible profit contribution (0.5%-3%) and relatively high average profit per transaction (1.7%-4.9%). Except for Surat, these markets have been showing great performance in 
+				early 2020 with very high profits both at an overall contribution and average transaction levels. These performance should be encouraged.
 			</li>
-			<br><h6>E-commerce status</h6>
+			<br><h6>E-commerce status <a href="https://github.com/ReneDCDSL/Sales_Insights/tree/main/dashboards/overall/overall_e-commerce.pdf"><img src="/img/graph.jpg" style="width: 30px; height: 30px; display:inline-block;"></a></h6>
 			<li>
-				Apart from Electricalsara Stores which are full Brick & Mortar, customers relying on E-commerce have been giving our company the most profitable transactions. 
-				These highly profitable transactions gives the company leverage to be taken advantage of (investing in more ads, promotions..)
+				Apart from Electricalsara Stores which are full Brick & Mortar, customers relying on E-commerce have been yielding our client's company the most profitable transactions. 
+				These highly profitable transactions gives their company leverage to be taken advantage of (investing in more ads, promotions..)
 			</li>
 		</ul>
 
-	<br><h6>2019: previous year performance</h6>
-	<ul>
-		<br><h6>Customers</h6>
-		<li>
-			<h6>Leader, Control, Logic Stores</h6>
-			<strong>Leader [1.9/6.7/11.1], Control [3/4.5/4.7] and Logic Stores [1.7/3.4/6.1]</strong> all have high average profit per transaction 
-			(> 4.5% each) in 2019. Each of these stores managed to have a transaction average profit of over 4.5%. These customers performed well last year, this performance should be 
-			encouraged.
-		</li>
-	</ul>
-
-	<br><h6>2020: current trend</h6>
+		<br><h4>2019: previous year performance</h4>
 		<ul>
-			<br><h6>Tier A products: 083, 070, 206, 308</h6>
+			<br><h6>Customers: Leader, Control, Logic Stores <a href="https://github.com/ReneDCDSL/Sales_Insights/tree/main/dashboards/2019/2019_tier_A_profit_per_transa.pdf"><img src="/img/graph.jpg" style="width: 30px; height: 30px; display:inline-block;"></a></h6>
+			<li>
+				<strong>Leader [1.9/6.7/11.1], Control [3/4.5/4.7] and Logic Stores [1.7/3.4/6.1]</strong> all had high average profit per transaction in 2019. Each of these stores 
+				managed to have a transaction average profit of over 4.5%. These customers have been very profitable last year, keeping a good relation with them is advised.
+			</li>
+		</ul>
+
+		<br><h4>2020: current trend</h4>
+		<ul>
+			<br><h6>Tier A products: 083, 070, 206, 308 <a href="https://github.com/ReneDCDSL/Sales_Insights/tree/main/dashboards/2020/2020_tier_A_products.pdf"><img src="/img/graph.jpg" style="width: 30px; height: 30px; display:inline-block;"></a></h6>
 			<li>
 				In the beginning of 2020, products <strong>083 [0.6/9.8/25.7], 070 [0.5/7.6/22.7], 206 [0.5/7.7/21] and 308 [1.5/14.8/14.2]</strong> have been the star products. 
 				With a combined profit contribution of 39.9% despite their 3.1% cumulated revenue, and individual average profit of > 14% per transactions, these products have 
-				been selling very well.
+				been selling very well. Understanding why is key to strategize on how to take advantage of these.
 			</li>
-			<br><h6>Tier B products: 324, 159, 313, 332, 201, 318</h6>
+			<br><h6>Tier B products: 324, 159, 313, 332, 201, 318 <a href="https://github.com/ReneDCDSL/Sales_Insights/tree/main/dashboards/2020/2020_tier_B_products.pdf"><img src="/img/graph.jpg" style="width: 30px; height: 30px; display:inline-block;"></a></h6>
 			<li>
 				These products have had a higher share of the revenue (0.7%-1.2%) in the beginning of 2020, but with a lesser profit contribution (4.9%-6.4%) and profit per 
 				transaction (6%-12.7%), except for product <strong>324 [3.5/7.9/3.3]</strong> which has high profit and revenue contribution rates but with a lower profit per 
-				transaction of 3.3%. These products have had very great performance in this first half of the year, I put them in this second, yet very good, tier as their 
-				relatively lower profit rates gives us less leverage to promote them.
+				transaction of 3.3%. These products have had very great performance in this first half of the year, so I put them in this second, yet very good, tier as products to 
+				investigate.
 			</li>
-			<br><h6>Market: Hyderabad</h6>
+			<br><h6>Market: Hyderabad <a href="https://github.com/ReneDCDSL/Sales_Insights/tree/main/dashboards/2020/2020_hyderabad.pdf"><img src="/img/graph.jpg" style="width: 30px; height: 30px; display:inline-block;"></a></h6>
 			<li>
-				The <strong>Hyderabad</strong> market has had a rough start in 2017 <strong>[1/-1/-3.1]</strong>, keeping low profile in 2018 <strong>[0.6/0.4/1.5]</strong>, 
-				before deeping down again in 2019 <strong>[0.8/-0.4/-1.5]</strong> but have risen back up in early 2020 <strong>[0.8/3.9/6.7]</strong>, with a record 
-				0.55M in revenue in March. A focus on this case is advised.
+				The <strong>Hyderabad</strong> market has had a rough start in <a href="https://github.com/ReneDCDSL/Sales_Insights/tree/main/dashboards/2017/2017_hyderabad.pdf">2017</a> 
+				<strong>[1/-1/-3.1]</strong>, keeping low profile in <a href="https://github.com/ReneDCDSL/Sales_Insights/tree/main/dashboards/2018/2018_hyderabad.pdf">2018</a> 
+				<strong>[0.6/0.4/1.5]</strong>, before deeping down again in <a href="https://github.com/ReneDCDSL/Sales_Insights/tree/main/dashboards/2019/2019_hyderabad.pdf">2019</a> 
+				<strong>[0.8/-0.4/-1.5]</strong> but have risen back up in <a href="https://github.com/ReneDCDSL/Sales_Insights/tree/main/dashboards/2020/2020_hyderabad.pdf">early 2020</a> 
+				<strong>[0.8/3.9/6.7]</strong>, with a record 0.55M in revenue in March. This sudden outbreak should be investigated
 			</li>
 		</ul>
+
+		This work present high-level insights on this dataset, the points made here are only a fraction of the conclusion we can draw from this data. Further analysis can still be done: focusing 
+		on specific market or customer to see which products work well/bad for them, taking one region of the country as a study case, check if seasonality has an impact on sales in some specific places...
+		
 	</p>
 
 	<h3 id="final">Final remarks</h3>
 
 	<p>
-		This dashboard is a simple yet informative version of the company sales state. It displays revenue and profit metrics, sales trend and the top markets, customers or 
-		products at any given time. There are still many other metrics, combinations of tables or charts that could be added. <br>
+		This dashboard is a simple yet informative version of Haardaveyar company sales state. It displays revenue and profit metrics, sales trend and the top markets, customers or 
+		products at any given time. It is a highly flexible dashboard, prone to change depending on the needs and questions at hand. <br>
 	</p>
 
 
