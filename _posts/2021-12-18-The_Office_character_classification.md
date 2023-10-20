@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Office Character Classifier"
+title: "[WIP] The Office Character Classifier"
 subtitle: "A quest to associate sentences to characters"
 #date:
 skills: "[NLP] [ML] [Transformers]"
