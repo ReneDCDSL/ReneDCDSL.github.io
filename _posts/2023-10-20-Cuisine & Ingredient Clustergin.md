@@ -587,7 +587,7 @@ plt.ylabel("Second principal component",fontsize=14);
 
 
     
-![png](output_34_0.png)
+![png](\img\posts\Cuisine\output_34_0.png)
     
 
 
@@ -622,7 +622,7 @@ ax.set_title("4 Cuisines' cluster",fontsize=16)
 
 
     
-![png](output_37_0.png)
+![png](\img\posts\Cuisine\output_37_0.png)
     
 
 
@@ -665,7 +665,7 @@ ax.set_title("Plot of centroids for each cuisine",fontsize=16)
 
 
     
-![png](output_40_0.png)
+![png](\img\posts\Cuisine\output_40_0.png)
     
 
 
@@ -808,7 +808,7 @@ ax.set_xlim([-.37,.43]);
 
 
     
-![png](output_43_0.png)
+![png](\img\posts\Cuisine\output_43_0.png)
     
 
 
@@ -839,7 +839,7 @@ ax.set_xlim([-.37,.43]);
 
 
     
-![png](output_44_0.png)
+![png](\img\posts\Cuisine\output_44_0.png)
     
 
 
