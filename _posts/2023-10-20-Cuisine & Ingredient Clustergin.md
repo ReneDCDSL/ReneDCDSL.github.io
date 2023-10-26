@@ -5,7 +5,7 @@ subtitle: "Clustering the ingredients from recipes from Yummly"
 #date:
 skills: "[Unsupervised Learning] [Clustering] [PCA] [K-means] [LDA] [NLP]"
 background: '/img/posts/Cuisine/bg_cuisine.jpg'
-link: 'https://https://github.com/ReneDCDSL/Ingredient_and_cuisine_clustering'
+link: 'https://github.com/ReneDCDSL/Ingredient_and_cuisine_clustering'
 ---
 <style>
   /* Style for tables */
