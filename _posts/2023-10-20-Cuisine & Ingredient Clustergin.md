@@ -3,8 +3,8 @@ layout: post
 title: "Recipe Ingredients Clustering"
 subtitle: "Clustering the ingredients from recipes from Yummly"
 #date:
-skills: "[Clustering] [Unsupervised Learning] [PCA] [K-means] [LDA]"
-background: '/img/posts/twitter_SA/twitter_SA.jpg'
+skills: "[Unsupervised Learning] [Clustering] [PCA] [K-means] [LDA] [NLP]"
+background: '/img/posts/Cuisine/bg_cuisine.jpg'
 link: 'https://github.com/ReneDCDSL/Twitter_Sentiment_Analysis'
 ---
 <style>
@@ -78,24 +78,49 @@ link: 'https://github.com/ReneDCDSL/Twitter_Sentiment_Analysis'
   }
 </style>
 
-# Cuisine and Ingredients clustering
+<a name="introduction"></a>
 
-I have always been passionated about food and its polarity. It can make you strong and healthy or weak and sick. It can represent pure fuel for some people, or a form of artistic expression for others. It can be as simple as inserting a slice of cheese between 2 pieces of bread and as complicated as making a Michelin-star plate involving dozens of ingredients into very long and intricate processes. 
-Having a meal is a whole experience we get so often yet can be so diverse. From getting a quick but heartwarming panini  sandwich for lunch in a busy work day, to sharing a relaxed Sunday roast with one's family.
+<br>
 
-As humans, food is a vital element of our lives. Although there are lots of food that can now be eaten raw thanks to our agricultural heritage, it usually involves some thorough choices: plants to breed in specific conditions, processes to preserve on long period of time, processes to make edible, techniques to increase productivity and food supply... The geographical, meteorological, social and cultural differences across our planet is the root of our wildlife diversity. Humans have cultivated plants for millenniums. It is a heritage that is visible through cuisine.
+I have always been passionate about food and its polarity. Food can be the source of a strong and healthy life, as much as it can make you weak and sick. It can represent plain fuel for some people, or a form of artistic expression for others. It can be as simple as inserting a slice of cheese between 2 pieces of bread and as complicated as making a Michelin-star plate involving dozens of ingredients into very long and intricate processes. 
+Having a meal is a whole experience we get so often yet can be so diverse. From getting a quick but heartwarming panini  sandwich for lunch on a busy workday, to sharing a relaxed Sunday roast with one's family.
 
-We have a rich and diverse culture around the world, but with people sharing common physiological roots, I was wondering if we could witness similarity in cuisines. By clustering cuisines through ingredients choices, I hope to see common traits arise between cuisine from people with different ethnicity, but who share either similar geographical conditions or whose ancestors have shared a past connection. Eventually, this approach could reveal unexpected similarity or differences between some cuisines.
+For as long as there have been beings, food has been a vital element to promote life. It has evolved a lot across time.
+From choosing plants to breed in specific conditions, processes to preserve food on long periods of time, processes to make food edible, techniques to increase productivity and food supply... The current state of agriculture is the heritage of millenniums of geographical, meteorological, social, and cultural factors.
 
-To achieve this clustering effort, I have found a collection of pairs of recipe ingredients and cuisine origin. The data comes from [Yummly](https://www.yummly.com) , a recipe recommender website. The dataset contains about 40000 recipes from 20 regions. The aim is to use text processing techniques to then apply unsupervised Machine Learning techniques to find clusters of cuisines and ingredients. In a first part I will preprocess the text data, remove some stop words and get it accessible to our following algorithms. In the second part I model the ingredients lists using 3 methods: K-Means, Principal Component Analysis (PCA) then a Latent Dirichlet Allocation (LDA) model in order to find cluster of ingredients and see if it is possible to group regional cuisines together or find regular pattern in the ingredients choice.
+With such diverse populations and landscapes around the world, we still share many similarity in the way we make and consume food. I am wondering if it is possible to witness historical and geographical similarity with the way we eat.
+By clustering cuisines through their recipes, I hope to see common traits arise between cuisine from people with different ethnicity, but who share similar geographical conditions or between populations which ancestors have shared a past connection. Eventually, this approach could reveal unexpected similarities or differences between some cuisines.
+
+To achieve this clustering effort, I have found a collection of pairs of recipe ingredients and cuisine origin. The data comes from [Yummly](https://www.yummly.com) , a recipe recommender website. The dataset contains about 40000 recipes from 20 regions. The aim is to use text processing techniques to then apply unsupervised Machine Learning techniques to find clusters of cuisines and ingredients. In the first part I will preprocess the text data, remove some stop words, and get it accessible to our following algorithms. In the second part I model the ingredients lists using 3 methods: K-Means, Principal Component Analysis (PCA) then a Latent Dirichlet Allocation (LDA) model in order to find cluster of ingredients and see if it is possible to group regional cuisines together or find regular pattern in the ingredients choice.
+
+## Table of contents
+
+1. [Introduction](#introduction)
+2. [Exploratory Data Analysis](#eda)
+3. [Text Processing](#text_pro)
+    1. [Text Preprocessing](#text_pre)
+    2. [Observation of Ingredients Frequency Ranking](#ingredients_frequency)
+4. [Clustering](#clustering)
+    1. [K-Means](#k-means)
+        1. [Elbow Method](#elbow_method)
+        2. [5 Clusters](#5_clusters)
+        3. [10 Clusters](#10_clusters)
+    2. [PCA](#PCA)
+        1. [Overview of Cuisines](#all_cuisines)
+        2. [Focus on Few Cuisines](#few_cuisines)
+        3. [Centroids](#centroids)
+        4. [Ingredients Association](#ingredients_association)
+        5. [Cumulative Explained Variance](#Cum_var)
+    3. [LDA](#LDA)
+5. [Conclusion](#conclusion)
 
 
+<a name="eda"></a>
 
 ## Exploratory Data Analysis
 
 
-
-The dataset is of shape:  (39774, 3). Here is a view of its first few lines:
+The dataset's shape is (39774, 3). Here is a view of its first few lines:
 
 <div>
 <style scoped>
@@ -107,13 +132,10 @@ The dataset is of shape:  (39774, 3). Here is a view of its first few lines:
         vertical-align: top;
     }
 
-    .dataframe thead th {
-        text-align: right;
-    }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
+  <thead style="text-align: center;">
+    <tr>
       <th></th>
       <th>id</th>
       <th>cuisine</th>
@@ -137,7 +159,7 @@ The dataset is of shape:  (39774, 3). Here is a view of its first few lines:
       <th>2</th>
       <td>20130</td>
       <td>filipino</td>
-      <td>[eggs, pepper, salt, mayonaise, cooking oil, g...</td>
+      <td>[eggs, pepper, salt, mayonnaise, cooking oil, g...</td>
     </tr>
     <tr>
       <th>3</th>
@@ -161,17 +183,20 @@ Here is a pie plot showing the distribution of cuisines from the dataset:
 ![png](/img/posts/Cuisine/output_15_0.png)
     
 This dataset contains mostly Italian, Mexican, Southern US, Indian, Chinese & French recipes. It is not hard to guess that the data comes from an American website with such food influences. <br> 
-The recipe are not equally distributed among all regions but there still are at least 467 recipes for each region. 
+The recipes are not equally distributed among all regions but there still are at least 467 recipes for each region. 
 
   
 ![png](/img/posts/Cuisine/output_18_0.png)
 
-We can see that among ingredients, spices and condiments appear very often, it is expected as they are fundamental ingredients in most recipes. We can also observe some ingredients that symbolic of some specific cuisines: lime juice, parmesan cheese, soy sauce, jalapeno chilie, green onion... These ingredients are specific to some regions and so I expect them to be marker of cuisines. 
+We can see that among ingredients, spices and condiments appear very often, it is expected as they are fundamental ingredients in most recipes. We can also observe some ingredients that symbolic of some specific cuisines: lime juice, parmesan cheese, soy sauce, jalapeno chili, green onion... These ingredients are specific to some regions and so I expect them to be markers of cuisines. 
 
+<a name="text_pro"></a>
 
 ## Text processing
 
 In this part, we will apply some text vectorizing tools so that further algorithms can use the ingredients as inputs.
+
+<a name="text_pre"></a>
 
 ### Text preprocessing
 
@@ -186,14 +211,10 @@ We first start by changing the lists of ingredients to a set of strings.
     .dataframe tbody tr th {
         vertical-align: top;
     }
-
-    .dataframe thead th {
-        text-align: right;
-    }
 </style>
 <table border="1" class="dataframe">
   <thead>
-    <tr style="text-align: right;">
+    <tr style="text-align: center;">
       <th></th>
       <th>id</th>
       <th>cuisine</th>
@@ -245,6 +266,8 @@ We first start by changing the lists of ingredients to a set of strings.
 We can now regroup all the ingredients present in the recipes and apply a TF-IDF algorithm to get a measure of the importance of each ingredients in the whole corpus.
 We can then rank the words by both IDF and TF-IDF scores.
 
+<a name="ingredients_frequency"></a>
+
 ### Observation of ingredients frequency ranking 
 
 Term Frequency (TF) represents how often a word appears in a document. Inverse Document Frequency (IDF) is a weight that indicates how commonly a word is used. 
@@ -289,11 +312,14 @@ Here we observe the previously computed IDF and TF-IDF rankings of our corpus:
      'coriander' 'whole' 'spray' 'leaf' 'minced' 'mushrooms' 'sour' 'crushed'
      'flakes']
     
-
+<a name="clustering"></a>
 
 ## Clustering
 
 Now that the data is ready to be processed, we can group ingredients by similarity or frequency distribution. I will apply 3 algorithms: K-Means, PCA and LDA to make clusters of ingredients commonly found together.
+
+
+<a name="k-means"></a>
 
 ### K-means
 
@@ -332,10 +358,19 @@ Some of these clusters seem to recover usual ingredients found in ethnic cuisine
 The number of clusters was set arbitrarily to get a first sense of the data. Looking at the obtained results, it may not be the appropriate choice. There is a method called the Elbow method which can help us decide what would be an approximately good amount of clusters. By checking the cumulative sum of squared distances from each cluster's centroids, we can find a good number of clusters to fit our data.
 
 
+<a name="elbow_method"></a>
+
+#### Elbow method
+
 ![png](/img/posts/Cuisine/output_49_0.png)
     
 
 The Elbow method advises us to pick a number of clusters which is not too big but still encompasses enough dissimilarity between them. With this method, we should choose a number that sits in the angle of the curve. Here, the curve does not have a very sharp angle, I would take a value between 5 and 10 clusters. 
+
+
+<a name="5_clusters"></a>
+
+##### 5 clusters
 
 Redoing the same experiment with 5 clusters, we obtain these groups:
 
@@ -348,6 +383,11 @@ Redoing the same experiment with 5 clusters, we obtain these groups:
     
 
 There is the again the cake recipe cluster, and what I would attribute in order: a recipe for creamy chicken sauce, Asian cuisine ingredients, Mexican or Indian (southern) style meal, and Italian/Mediterranean ingredients
+
+
+<a name="10_clusters"></a>
+
+##### 10 clusters
 
 Then, with 10 clusters:
 
@@ -368,10 +408,15 @@ With 10 clusters, we can see similar structure to the 5 ones. With some ingredie
 We can clearly see how these recipes come from an American community from the initial cuisine distribution and clusters that emerges from the ingredients lists. These clusters are still fairly general, having at least the 25 clusters allowed for more nuances between the big categories (difference between Mexican and Indian or Japanese and Chinese for example)
 
 
+<a name="PCA"></a>
+
 ### PCA
 
 Principal Component Analysis is a popular technique to derive a set of low dimensional features from a much larger set while still preserving as much variance as possible. It is often used to do variable selection or to visualize high-dimensional data.
 Here we will use it for the latter purpose. We start with 3010 features which represent the total number of ingredients in our recipes and reduce it down to the 2 principal components which we'll be able to graphically visualize.
+
+
+<a name="all_cuisines"></a>
 
 ####  Overview of cuisines
 
@@ -383,6 +428,9 @@ Here we apply PCA on our whole dataset, keeping only the 2 principal components.
 
 The recipes are globally well packed up, although we can see some distinct regions (pink squares at the bottom, turquoise hexagons at the top). One great thing is that, from the few clusters we can see, they seem to not have too large intra-cluster variance, we can see clear grouping of them. We could try to reduce the number of cuisines to see clearer separations.
 
+
+<a name="few_cuisines"></a>
+
 #### Focus on few cuisines
 
 Here I arbitrarily chose to  focus on Japanese, Greek, Russian & Cajun/Creole cuisines to better observe separation between points.
@@ -391,10 +439,12 @@ Here I arbitrarily chose to  focus on Japanese, Greek, Russian & Cajun/Creole cu
 ![png](/img/posts/Cuisine/output_73_0.png)
 
 
-From this second graph, we can observe more distinction between the cuisines. There are still some heavy overlapping in the middle-left part of the graph but they all seem to diverge in a different direction. Japanese cuisine tend to have a higher degree of the 2nd principal component, while Greek and Cajun/Creole have on average a higher amount of the 1st principal component. 
+From this second graph, we can observe more distinction between the cuisines. There are still some heavy overlapping in the middle-left part of the graph, but they all seem to diverge in a different direction. Japanese cuisine tend to have a higher degree of the 2nd principal component, while Greek and Cajun/Creole have on average a higher amount of the 1st principal component. 
 <br>
 To reduce the noise in these graphs and get another view of the resulting PCA model, we can focus on cuisine centroids, the average points of all recipes.
 
+
+<a name="centroids"></a>
 
 #### Centroids
 
@@ -402,12 +452,15 @@ To reduce the noise in these graphs and get another view of the resulting PCA mo
 ![png](/img/posts/Cuisine/output_76_0.png)
     
 
-This centroid plot is much easier to read. We can see some clusters of cuisines emerging. For example, the 4 points at the very top are Chinese, Korean, Thai & Vietnamese cuisines, which are regionally very close. Japanese and Filipino cuisines are not too far from the first 4, but with each their own offset on the graph. On the bottom left we can see British, Irish, Russian, Southern_us and French cuisine making another cluster of European meals. On the bottom middle right part, another cluster is formed with Italian, Mexican, Indian, Spanish, Greek, Jamaican, Cajun/Creole and a bit further, Moroccan cuisines. These are a mix of countries with cuisine full of spices and Mediterranean countries. A common ingredient shared by these countries could be the tomato. <br>
-Although reducing such high dimensional data on only 2 dimensions may seem extreme and lack depth in the specificity between cuisines, we can already see very logical patterns that underlines a working methodology. 
+This centroid plot is much easier to read. We can see some clusters of cuisines emerging. For example, the 4 points at the very top are Chinese, Korean, Thai & Vietnamese cuisines, which are regionally very close. Japanese and Filipino cuisines are not too far from the first 4, but with each their own offset on the graph. On the bottom left we can see British, Irish, Russian, Southern_us and French cuisine making another cluster of European meals. On the bottom middle right part, another cluster is formed with Italian, Mexican, Indian, Spanish, Greek, Jamaican, Cajun/Creole, and a bit further, Moroccan cuisines. These are a mix of countries with cuisine full of spices and Mediterranean countries. A common ingredient shared by these countries could be the tomato. <br>
+Although reducing such high dimensional data to only 2 dimensions may seem extreme and lack depth in the specificity between cuisines, we can already see very logical patterns that underlines a working methodology. 
+
+
+<a name="ingredients_association"></a>
 
 #### Ingredients association 
 
-Another way to look at our PCA results is to look at the way ingredients were classified along the 2 principal components. We can get these 2 values for each ingredient, plot them, then check what are the similarity between them, and the logic the model has been trying to extract.
+Another way to look at our PCA results is to look at the way ingredients were classified among the 2 principal components. We can get these 2 values for each ingredient, plot them, then check what are the similarities between them, and the logic the model has been trying to extract.
 
 Since there are a lot of ingredients in our corpus, we won't be able to plot them all. To get ingredients with various polarity, I will just extract several elements with the highest and lowest values for each of the 2 principal components.
 
@@ -416,10 +469,13 @@ Since there are a lot of ingredients in our corpus, we won't be able to plot the
     
 
 
-This graph shows the vectorized position of the ingredients along the 2 principal components of the model. Again, we can see some groups of ingredients that share really similar attributes. Soy, sesame, rice, sauce, oil, garlic, fresh on the top right corner are all ingredients commonly found in Asian cuisine. While on the bottom left side: flour, butter, eggs, vanilla & sugar are very common pastry ingredients. <br>
+This graph shows the vectorized position of the ingredients among the 2 principal components of the model. Again, we can see some groups of ingredients that share really similar attributes. Soy, sesame, rice, sauce, oil, garlic, fresh on the top right corner are all ingredients commonly found in Asian cuisine. While on the bottom left side: flour, butter, eggs, vanilla & sugar are very common pastry ingredients. <br>
 It is interesting to see how just 2 variables can capture so much information about a very large number of various ingredients.
 
 Our simple 2 dimensional PCA model has been working great. However, we don't know how much it really captured overall nuances. We can check this with the explained variance ratio which is a ratio of the variance a model with K components can keep compared to one with all of its components.
+
+
+<a name="Cum_var"></a>
 
 #### Cumulative explained variance
 
@@ -429,7 +485,7 @@ Here I plot the cumulative explained variance for all k combination of principal
 ![png](/img/posts/Cuisine/output_87_1.png)
 
 
-This curve represent the amount of variance a PCA with k components would contain. We can see a very sharp curve, increasing very fast on the first few several hundreds components, before curving horizontally. This means that a model that would have 500 principal components would contain almost 95% of the variance coming from all ingredients. Unfortunately, we can see that a model with just 2 principal components does not carry a majority of the total variance.
+This curve represent the amount of variance a PCA with k components would contain. We can see a very sharp curve, increasing very fast on the first few several hundreds of components, before curving horizontally. This means that a model that would have 500 principal components would contain almost 95% of the variance coming from all ingredients. Unfortunately, we can see that a model with just 2 principal components does not carry a majority of the total variance.
 
     Variance ratio of the first 2 principal components: 11.08%
 
@@ -444,9 +500,11 @@ Here are the number of components that would be needed, with our current dataset
     Number of Principle Components to keep 99% of data variance:  1112
     
 
+<a name="LDA"></a>
+
 ### LDA
 
-LDA is used to discover latent (hidden) topics within data thanks to Dirichlet distributions. There are 2 Dirichlet distributions used in LDA, one over the topics (here, ideally the cuisine) in each document and another over the words (ingredients) in each topic. Contrarily to PCA and other algorithms that use distance measures to determine similarity, LDA is based on the frequency counts of words within topics. Here I extract the top 25 topics (clusters) using the LDA algorithm:
+LDA is used to discover latent (hidden) topics within data thanks to Dirichlet distributions. There are 2 Dirichlet distributions used in LDA, one over the topics (here, ideally the cuisine) in each document and another over the words (ingredients) in each topic. Contrary to PCA and other algorithms that use distance measures to determine similarity, LDA is based on the frequency counts of words within topics. Here I extract the top 25 topics (clusters) using the LDA algorithm:
 
 
     topic 0       topic 1       topic 2       topic 3       topic 4       topic 5       topic 6       topic 7       topic 8       
@@ -494,9 +552,11 @@ LDA is used to discover latent (hidden) topics within data thanks to Dirichlet d
 Again, we can see similar groups of ingredients to previous results. There are regional clusters (0: Eastern Asia, 2: Mediterranean, 4: Mexican, 5: Japanese, 14: French...). Although it looks like this algorithm got a different understanding, with more categories of food. There are groups of ingredients by category (1: Condiments, 3: Spices, 17: Citrus/Fresh fruits and herbs, 16,19: healthy ingredients...) and common recipes (7,20: Cakes, 9: Breads). It seems like LDA captured better the role of some ingredients rather than their relative occurrence in recipes like previously. It may be due to the fact that LDA and K-Means use spatial distance as a measure of similarity whereas LDA use term occurrence and so it found ingredients that appear in similar context rather than words that appear together often.
 
 
+<a name="conclusion"></a>
+
 ## Conclusion
 
-Thanks to the various techniques employed here, I managed to extract simple similarity measures between various cuisines and ingredients association. We can see how the models captured similarity between geographically close places (Thai, Chinese, Korean, Vietnam on one side, Spanish, Mexican, Indian on the other..) and ingredients types (condiments, citrus, baking staples). 
+Thanks to the various techniques employed here, I managed to extract simple similarity measures between various cuisines and ingredients association. We can see how the models captured similarity between geographically close places (Thai, Chinese, Korean, Vietnam on one side, Spanish, Mexican, Indian on the other..) and ingredient types (condiments, citrus, baking staples). 
 The dataset I used is not really optimal for this task as it feels very influenced by American cooking and habits. I see several big biases that should be accounted for in a further analysis, to extract clearer insights: <br>
 - Get a more equal distribution of recipes
 - Have the recipes written by locals or taken from locals/chefs with more precise ingredients choices (From experience and looking at the data, I know people often cut corners when doing international dishes (using lemon instead of limes, curry powder instead of specific set of spices, white wine instead of mirin etc.) which is fine in practice, but which creates biases for this kind of task)
