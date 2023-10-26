@@ -1,4 +1,4 @@
-# Cuisine and Ingredients clustering
+# Cuisine Cultural Diffusion Analysis
 
 I have always been passionated about food and its polarity. It can make you strong and healthy or weak and sick. It can represent pure fuel for some people, or a form of artistic expression for others. It can be as simple as inserting a slice of cheese between 2 pieces of bread and as complicated as making a Michelin-star plate involving dozens of ingredients into very long and intricate processes. 
 Having a meal is a whole experience we get so often yet can be so diverse. From getting a quick but heartwarming panini  sandwich for lunch in a busy work day, to sharing a relaxed Sunday roast with one's family.
