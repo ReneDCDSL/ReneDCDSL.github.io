@@ -192,13 +192,13 @@ We can see that among ingredients, spices and condiments appear very often, it i
 
 <a name="text_pro"></a>
 
-## Text processing
+## Text Processing
 
 In this part, we will apply some text vectorizing tools so that further algorithms can use the ingredients as inputs.
 
 <a name="text_pre"></a>
 
-### Text preprocessing
+### Text Preprocessing
 
 We first start by changing the lists of ingredients to a set of strings.
 
@@ -268,7 +268,7 @@ We can then rank the words by both IDF and TF-IDF scores.
 
 <a name="ingredients_frequency"></a>
 
-### Observation of ingredients frequency ranking 
+### Observation of Ingredients Frequency Ranking 
 
 Term Frequency (TF) represents how often a word appears in a document. Inverse Document Frequency (IDF) is a weight that indicates how commonly a word is used. 
 The more documents (recipes) it appears in, the lower the IDF score. A word with a low score means it is very common across recipes and so maybe not that important 
@@ -360,7 +360,7 @@ The number of clusters was set arbitrarily to get a first sense of the data. Loo
 
 <a name="elbow_method"></a>
 
-#### Elbow method
+#### Elbow Method
 
 ![png](/img/posts/Cuisine/output_49_0.png)
     
@@ -370,7 +370,7 @@ The Elbow method advises us to pick a number of clusters which is not too big bu
 
 <a name="5_clusters"></a>
 
-##### 5 clusters
+##### 5 Clusters
 
 Redoing the same experiment with 5 clusters, we obtain these groups:
 
@@ -387,7 +387,7 @@ There is the again the cake recipe cluster, and what I would attribute in order:
 
 <a name="10_clusters"></a>
 
-##### 10 clusters
+##### 10 Clusters
 
 Then, with 10 clusters:
 
@@ -418,7 +418,7 @@ Here we will use it for the latter purpose. We start with 3010 features which re
 
 <a name="all_cuisines"></a>
 
-####  Overview of cuisines
+####  Overview of Cuisines
 
 Here we apply PCA on our whole dataset, keeping only the 2 principal components. This allows us to plot all the recipes according to a graph with axis representing the 2 principal components:
 
@@ -431,7 +431,7 @@ The recipes are globally well packed up, although we can see some distinct regio
 
 <a name="few_cuisines"></a>
 
-#### Focus on few cuisines
+#### Focus on Few Cuisines
 
 Here I arbitrarily chose to  focus on Japanese, Greek, Russian & Cajun/Creole cuisines to better observe separation between points.
 
@@ -458,7 +458,7 @@ Although reducing such high dimensional data to only 2 dimensions may seem extre
 
 <a name="ingredients_association"></a>
 
-#### Ingredients association 
+#### Ingredients Association 
 
 Another way to look at our PCA results is to look at the way ingredients were classified among the 2 principal components. We can get these 2 values for each ingredient, plot them, then check what are the similarities between them, and the logic the model has been trying to extract.
 
@@ -477,7 +477,7 @@ Our simple 2 dimensional PCA model has been working great. However, we don't kno
 
 <a name="Cum_var"></a>
 
-#### Cumulative explained variance
+#### Cumulative Explained Variance
 
 Here I plot the cumulative explained variance for all k combination of principal components.
 
