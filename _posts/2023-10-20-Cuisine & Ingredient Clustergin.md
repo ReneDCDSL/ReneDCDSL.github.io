@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Recipe Ingredients Clustering"
-subtitle: "Clustering the ingredients from recipes from Yummly"
+title: "Cultural Diffusion Through Cuisine"
+subtitle: "Clustering the ingredients from international recipes"
 #date:
 skills: "[Unsupervised Learning] [Clustering] [PCA] [K-means] [LDA] [NLP]"
 background: '/img/posts/Cuisine/bg_cuisine.jpg'
-link: 'https://github.com/ReneDCDSL/Ingredient_and_cuisine_clustering'
+link: 'https://github.com/ReneDCDSL/Cuisine_Cultural_Diffusion'
 ---
 <style>
   /* Style for tables */
