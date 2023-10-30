@@ -86,10 +86,10 @@ I have always been passionate about food and its polarity. Food can be the sourc
 Having a meal is a whole experience we get so often yet can be so diverse. From getting a quick but heartwarming panini  sandwich for lunch on a busy workday, to sharing a relaxed Sunday roast with one's family.
 
 For as long as there have been beings, food has been a vital element to promote life. It has evolved a lot across time.
-From choosing plants to breed in specific conditions, processes to preserve food on long periods of time, processes to make food edible, techniques to increase productivity and food supply... The current state of agriculture is the heritage of millenniums of geographical, meteorological, social, and cultural factors.
+From choosing plants to breed in specific conditions, processes to preserve food on long periods of time, processes to make food edible or techniques to increase productivity and food supply. The current state of agriculture is the heritage of millenniums of geographical, meteorological, social, and cultural factors.
 
 With such diverse populations and landscapes around the world, we still share many similarity in the way we make and consume food. I am wondering if it is possible to witness historical and geographical similarity with the way we eat.
-By clustering cuisines through their recipes, I hope to see common traits arise between cuisine from people with different ethnicity, but who share similar geographical conditions or between populations which ancestors have shared a past connection. Eventually, this approach could reveal unexpected similarities or differences between some cuisines.
+By clustering cuisines through their recipes, I hope to see common traits arise between cuisines from people with different ethnicity, but who share similar geographical conditions or between populations which ancestors have shared a past connection. Eventually, this approach could reveal unexpected similarities or differences between some cuisines.
 
 To achieve this clustering effort, I have found a collection of pairs of recipe ingredients and cuisine origin. The data comes from [Yummly](https://www.yummly.com) , a recipe recommender website. The dataset contains about 40000 recipes from 20 regions. The aim is to use text processing techniques to then apply unsupervised Machine Learning techniques to find clusters of cuisines and ingredients. In the first part I will preprocess the text data, remove some stop words, and get it accessible to our following algorithms. In the second part I model the ingredients lists using 3 methods: K-Means, Principal Component Analysis (PCA) then a Latent Dirichlet Allocation (LDA) model in order to find cluster of ingredients and see if it is possible to group regional cuisines together or find regular pattern in the ingredients choice.
 
@@ -182,13 +182,13 @@ Here is a pie plot showing the distribution of cuisines from the dataset:
     
 ![png](/img/posts/Cuisine/output_15_0.png)
     
-This dataset contains mostly Italian, Mexican, Southern US, Indian, Chinese & French recipes. It is not hard to guess that the data comes from an American website with such food influences. <br> 
+This dataset contains mostly Italian, Mexican, Southern US, Indian, Chinese and French recipes. It is not hard to guess that the data comes from an American website with such food influences. <br> 
 The recipes are not equally distributed among all regions but there still are at least 467 recipes for each region. 
 
   
 ![png](/img/posts/Cuisine/output_18_0.png)
 
-We can see that among ingredients, spices and condiments appear very often, it is expected as they are fundamental ingredients in most recipes. We can also observe some ingredients that symbolic of some specific cuisines: lime juice, parmesan cheese, soy sauce, jalapeno chili, green onion... These ingredients are specific to some regions and so I expect them to be markers of cuisines. 
+We can see that among ingredients, spices and condiments appear very often, it is expected as they are fundamental ingredients which are present in almost all recipes. We can also observe some ingredients that are symbolic of some specific cuisines: lime juice, parmesan cheese, soy sauce, jalapeno chili, green onion... These ingredients are specific to some regions and so I expect them to be markers of cuisines. 
 
 <a name="text_pro"></a>
 
